@@ -1,40 +1,52 @@
 <template>
 	<div class="user-avatar-layout">
-		<div class="user-avatar-img">
-			<img
-				src="../../assets/images/pikaqiu.jpg"
-				alt
-			/>
-		</div>
-		<div class="user-avatar-bar">
-			admin2
-			<i
-				class="ri-arrow-down-s-fill"
-				@click="showBtn = !showBtn"
-			></i>
-		</div>
-		<div class="user-avatar-btn">
-			<transition name="fade">
-				<div
-					class="reset-password"
-					v-if="showBtn"
-					@click="dialogVisible = true"
-				>修改密码</div>
-			</transition>
-		</div>
+		<!-- <div class="user-avatar-img">
+      <img
+        src="@/assets/images/pikaqiu.jpg"
+        alt
+      />
+		</div>-->
+		<!-- <div
+      class="user-avatar-bar"
+      @click="showBtn = !showBtn"
+    >
+      admin
+      <i class="ri-arrow-down-s-fill"></i>
+		</div>-->
+		<el-dropdown
+			trigger="click"
+			@command="dialogVisible = true"
+		>
+			<span class="el-dropdown-link">
+				Admin
+				<i class="el-icon-arrow-down el-icon--right"></i>
+			</span>
+			<el-dropdown-menu slot="dropdown">
+				<el-dropdown-item>修改密码</el-dropdown-item>
+			</el-dropdown-menu>
+		</el-dropdown>
+		<!-- <div class="user-avatar-btn">
+      <transition name="fade">
+        <div
+          v-if="showBtn"
+          class="reset-password"
+          @click="dialogVisible = true"
+        >修改密码</div>
+      </transition>
+		</div>-->
 		<el-dialog
 			title="提示"
 			:visible.sync="dialogVisible"
 			width="20%"
 			:before-close="handleClose"
-			@keydown.enter.native="submit('passForm')"
 			center
+			@keydown.enter.native="submit('passForm')"
 		>
 			<el-form
+				ref="passForm"
 				:model="passForm"
 				status-icon
 				:rules="rules"
-				ref="passForm"
 				class="demo-passForm"
 				:hide-required-asterisk="false"
 			>
@@ -43,25 +55,25 @@
 					placeholder="请输入原密码"
 				>
 					<el-input
+						v-model.trim="passForm.oldPassword"
 						type="password"
 						placeholder="请输入原密码"
-						v-model.trim="passForm.oldPassword"
 						autocomplete="off"
 					></el-input>
 				</el-form-item>
 				<el-form-item prop="newPassword">
 					<el-input
+						v-model.trim="passForm.newPassword"
 						type="password"
 						placeholder="请输入新密码"
-						v-model.trim="passForm.newPassword"
 						autocomplete="off"
 					></el-input>
 				</el-form-item>
 				<el-form-item prop="checkPass">
 					<el-input
+						v-model.trim="passForm.checkPass"
 						type="password"
 						placeholder="请重复输入新密码"
-						v-model.trim="passForm.checkPass"
 						autocomplete="off"
 					></el-input>
 				</el-form-item>
@@ -101,7 +113,7 @@ export default {
 			}
 		};
 		return {
-			showBtn: false,
+			// showBtn: false,
 			dialogVisible: false,
 			passForm: {
 				oldPassword: "",
@@ -174,32 +186,39 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user-avatar-layout {
-	margin: $margin-base;
-	margin-bottom: 0;
-	> .user-avatar-img {
-		img {
-			border-radius: 50%;
-			width: 60px;
-		}
-	}
-	> .user-avatar-bar {
-		color: $color-font-light;
-		> .ri-arrow-down-s-fill {
-			cursor: pointer;
-			vertical-align: middle;
-		}
-	}
-	> .user-avatar-btn {
-		height: 30px;
-		cursor: pointer;
-		.reset-password {
-			width: 80%;
-			height: 100%;
-			background: $color-font-light;
-			text-align: center;
-			line-height: 30px;
-		}
-	}
+.el-dropdown-link:hover {
+	cursor: pointer;
+	color: #409eff;
 }
+.el-icon-arrow-down {
+	font-size: 12px;
+}
+// .user-avatar-layout {
+//     margin: $margin-base;
+//     margin-bottom: 0;
+//     > .user-avatar-img {
+//         img {
+//             border-radius: 50%;
+//             width: 60px;
+//         }
+//     }
+//     > .user-avatar-bar {
+//         // color: $color-font-light;
+//         > .ri-arrow-down-s-fill {
+//             cursor: pointer;
+//             vertical-align: middle;
+//         }
+//     }
+//     > .user-avatar-btn {
+//         height: 0px;
+//         cursor: pointer;
+//         .reset-password {
+//             width: 80%;
+//             height: 100%;
+//             background: $color-font-light;
+//             text-align: center;
+//             line-height: 30px;
+//         }
+//     }
+// }
 </style>

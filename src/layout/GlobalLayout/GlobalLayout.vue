@@ -36,6 +36,18 @@ import GlobalLayoutMainHeader from "./GlobalLayoutMainHeader";
 
 let menuList = [];
 
+const fildRoutes = function(routeList) {
+	let len = routeList.length;
+	for (let i = len - 1; i >= 0; i--) {
+		let route = routeList[i];
+		if (!route.invisible) {
+			routeList.splice(i, 1);
+		} else if (route.children) {
+			fildRoutes(route.children);
+		}
+	}
+};
+
 export default {
 	components: {
 		GlobalLayoutAside,
@@ -55,23 +67,20 @@ export default {
 		/**
 		 * 筛选路由，使invisible为false的路由被筛掉，不渲染
 		 */
-		const fildRoutes = function(routeList) {
-			let len = routeList.length;
-			for (let i = len - 1; i >= 0; i--) {
-				let route = routeList[i];
-				if (!route.invisible) {
-					routeList.splice(i, 1);
-				} else if (route.children) {
-					fildRoutes(route.children);
-				}
-			}
-		};
 		fildRoutes(routes);
 		menuList = routes;
 	},
 	created() {
-		this.activeTabName = this.$route.name;
+		let route = [this.$route];
 		this.editableTabs.push(this.$route);
+		if (this.$route.path !== "/" && this.$route.path !== "/homepage") {
+			route.unshift({
+				path: "/homepage",
+				name: "首页"
+			});
+		}
+		this.activeTabName = this.$route.name;
+		this.editableTabs = route;
 	},
 	watch: {
 		$route(newRoute, oldRoute) {

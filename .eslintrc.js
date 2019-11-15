@@ -5,7 +5,6 @@ module.exports = {
 	},
 	extends: ["plugin:vue/essential", "eslint:recommended"],
 	rules: {
-		"no-useless-escape": 0,
 		"no-console": "off",
 		"no-debugger": "off",
 		"no-tabs": "off",
@@ -59,6 +58,7 @@ module.exports = {
 		"array-bracket-spacing": [1, "never"],
 		"comma-style": [1, "last"],
 		curly: [1, "all"],
+		"default-case": 1,
 		indent: [1, "tab"],
 		"key-spacing": [
 			1,
@@ -80,7 +80,7 @@ module.exports = {
 		"valid-typeof": 1,
 		"block-scoped-var": 1,
 		"no-div-regex": 1,
-		"no-empty-function": 1,
+		// "no-empty-function": 1,
 		"no-return-assign": 1,
 		"no-self-compare": 1,
 		"require-await": 1,
@@ -125,4 +125,4 @@ module.exports = {
 			}
 		}
 	]
-}
+};

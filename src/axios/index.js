@@ -13,8 +13,8 @@ Axios.interceptors.request.use(
 		// 若是有做鉴权token , 就给头部带上token
 		// 这里localStorage一般是请求成功后我们自行写入到本地的,因为放在vuex刷新就没了
 		// 一些必要的数据写入本地,优先从本地读取
-		let requireLogin = router.currentRoute.meta.requireLogin;
-		if (localStorage.loginUserBaseInfo && requireLogin) {
+		let requireAuth = router.currentRoute.meta.requireAuth;
+		if (localStorage.userInfo && requireAuth) {
 			config.headers.Authorization = JSON.parse(
 				localStorage.getItem("userInfo")
 			).loginToken;

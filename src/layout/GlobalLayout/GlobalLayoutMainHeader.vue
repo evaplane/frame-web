@@ -1,8 +1,17 @@
 <template>
 	<div class="global-layout-main-header-layout">
-		<el-row class="header-row">
+		<el-row
+			:gutter="10"
+			type="flex"
+			justify="space-around"
+			class="header-row"
+		>
 			<el-col
-				:span="1"
+				:xs="2"
+				:sm="2"
+				:md="2"
+				:lg="2"
+				:xl="2"
 				class="header-col"
 			>
 				<div @click="$emit('update:isCollapse', !isCollapse)">
@@ -13,34 +22,59 @@
 				</div>
 			</el-col>
 			<el-col
-				:span="22"
-				class="header-col"
+				:xs="1"
+				:sm="1"
+				:md="12"
+				:lg="18"
+				:xl="20"
 			>
-				<el-breadcrumb
-					separator-class="el-icon-arrow-right"
-					class="header-col"
-				>
-					<el-breadcrumb-item
-						v-for="(crumb, i) in breadcrumb"
-						:key="i"
-					>{{crumb.name}}</el-breadcrumb-item>
-				</el-breadcrumb>
+				<!-- <el-breadcrumb
+          separator-class="el-icon-arrow-right"
+          class="header-col"
+        >
+          <el-breadcrumb-item
+            v-for="(crumb, i) in breadcrumb"
+            :key="i"
+          >{{crumb.name}}</el-breadcrumb-item>
+				</el-breadcrumb>-->
 			</el-col>
 			<el-col
-				:span="1"
+				:xs="10"
+				:sm="4"
+				:md="3"
+				:lg="2"
+				:xl="1"
 				class="header-col"
 			>
-				<div
-					class="header-col"
-					@click="logOutClick"
-				>
-					<i class="el-icon-switch-button">退出</i>
+				<div class="header-col header-col-text">
+					<global-layout-aside-avatar></global-layout-aside-avatar>
 				</div>
 			</el-col>
+			<!-- <el-col
+        :xs="24"
+        :sm="24"
+        :md="3"
+        :lg="2"
+        :xl="1"
+        class="header-col"
+			>-->
+			<div
+				class="header-col header-col-text header-col-inline"
+				@click="logOutClick"
+			>
+				<i class="el-icon-switch-button">退出</i>
+			</div>
+			<!-- </el-col> -->
 		</el-row>
 		<el-row class="tab-bar">
 			<!-- tab栏 -->
-			<el-col :span="22">
+			<el-col
+				:xs="24"
+				:sm="24"
+				:md="20"
+				:lg="21"
+				:xl="22"
+			>
 				<el-tabs
 					v-model="tabIndex"
 					type="card"
@@ -56,7 +90,14 @@
 					></el-tab-pane>
 				</el-tabs>
 			</el-col>
-			<el-col :span="2">
+			<el-col
+				:xs="24"
+				:sm="24"
+				:md="4"
+				:lg="3"
+				:xl="2"
+				class="header-col-text"
+			>
 				<el-dropdown
 					split-button
 					@command="handleCommand"
@@ -72,8 +113,12 @@
 	</div>
 </template>
 <script>
+import GlobalLayoutAsideAvatar from "@/layout/GlobalLayout/GlobalLayoutAsideAvatar";
 let breadcrumb = [];
 export default {
+	components: {
+		GlobalLayoutAsideAvatar
+	},
 	props: {
 		isCollapse: {
 			type: Boolean,
@@ -92,6 +137,23 @@ export default {
 			tabIndex: "1",
 			breadcrumb: breadcrumb
 		};
+	},
+	watch: {
+		$route(newRoute) {
+			this.breadcrumb = newRoute.matched;
+		},
+		activeTabName(val) {
+			this.tabIndex = val;
+		}
+		// tabIndex(val) {
+		// 	this.$emit("changeVal", val);
+		// }
+	},
+	created() {
+		this.tabIndex = this.$route.name;
+	},
+	beforeCreate() {
+		breadcrumb = this.$route.matched;
 	},
 	methods: {
 		handleClick(tab, event) {
@@ -123,29 +185,19 @@ export default {
 		handleCommand(commond) {
 			this.$emit("closeTabs", commond);
 		}
-	},
-	watch: {
-		$route(newRoute) {
-			this.breadcrumb = newRoute.matched;
-		},
-		activeTabName(val) {
-			this.tabIndex = val;
-		}
-		// tabIndex(val) {
-		// 	this.$emit("changeVal", val);
-		// }
-	},
-	created() {
-		this.tabIndex = this.$route.name;
-	},
-	beforeCreate() {
-		breadcrumb = this.$route.matched;
 	}
 };
 </script>
 <style lang="scss" scoped>
 .global-layout-main-header-layout {
 	$fontSize: 30px;
+	.header-col-text {
+		text-align: $text-align-right;
+	}
+	.header-col-inline {
+		display: inline;
+		margin-right: 1px;
+	}
 	.header-row {
 		padding: 0;
 		margin-bottom: $margin-small;

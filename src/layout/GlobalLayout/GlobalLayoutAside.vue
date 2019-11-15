@@ -11,7 +11,7 @@
 		@select="handleSelect"
 	>
 		<!-- 用户 -->
-		<Avatar v-if="!isCollapse"></Avatar>
+		<!-- <Avatar v-if="!isCollapse"></Avatar> -->
 		<!-- 菜单 -->
 		<el-submenu
 			v-for="(item, index) in menuList"
@@ -38,9 +38,12 @@
 </template>
 
 <script>
-import Avatar from "./GlobalLayoutAsideAvatar";
+// import Avatar from './GlobalLayoutAsideAvatar';
 
 export default {
+	components: {
+		// Avatar
+	},
 	props: {
 		isCollapse: {
 			type: Boolean,
@@ -54,9 +57,6 @@ export default {
 			}
 		}
 	},
-	components: {
-		Avatar
-	},
 	data() {
 		return {};
 	},
@@ -69,7 +69,24 @@ export default {
 </script>
 <style lang="scss" scoped>
 .global-layout-aside-layout:not(.el-menu--collapse) {
-	width: 220px;
+	width: 180px;
 	font-size: $font-size-primary;
+}
+</style>
+
+<style lang="scss">
+.global-layout {
+	.el-menu {
+		overflow: hidden;
+	}
+	.el-menu-item,
+	.el-submenu__title {
+		height: 40px;
+		line-height: 40px;
+	}
+	.el-submenu .el-menu-item {
+		height: 40px;
+		line-height: 40px;
+	}
 }
 </style>
