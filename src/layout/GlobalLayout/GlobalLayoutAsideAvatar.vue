@@ -1,5 +1,5 @@
 <template>
-	<div class="user-avatar-layout">
+	<div class="header-row-conf">
 		<!-- <div class="user-avatar-img">
       <img
         src="@/assets/images/pikaqiu.jpg"
@@ -13,7 +13,7 @@
       admin
       <i class="ri-arrow-down-s-fill"></i>
 		</div>-->
-		<el-dropdown
+		<!-- <el-dropdown
 			trigger="click"
 			@command="dialogVisible = true"
 		>
@@ -22,9 +22,30 @@
 				<i class="el-icon-arrow-down el-icon--right"></i>
 			</span>
 			<el-dropdown-menu slot="dropdown">
-				<el-dropdown-item>修改密码</el-dropdown-item>
+				<el-dropdown-item></el-dropdown-item>
 			</el-dropdown-menu>
-		</el-dropdown>
+		</el-dropdown>-->
+		<div
+			class="header-col header-col-text header-col-inline"
+			@click="userInfoVisible = true;"
+		>
+			<i class="ri-user-line"></i>
+			<span class="headerText">{{userInfoData.userName}}</span>
+		</div>
+		<div
+			class="header-col header-col-text header-col-inline"
+			@click="handleEditPassword"
+		>
+			<i class="ri-lock-line"></i>
+			<span class="headerText">修改密码</span>
+		</div>
+		<div
+			class="header-col header-col-text header-col-inline"
+			@click="logOutClick"
+		>
+			<i class="el-icon-switch-button"></i>
+			<span class="headerText">退出</span>
+		</div>
 		<!-- <div class="user-avatar-btn">
       <transition name="fade">
         <div
@@ -35,11 +56,10 @@
       </transition>
 		</div>-->
 		<el-dialog
-			title="提示"
+			title="修改密码"
 			:visible.sync="dialogVisible"
-			width="20%"
+			width="50%"
 			:before-close="handleClose"
-			center
 			@keydown.enter.native="submit('passForm')"
 		>
 			<el-form
@@ -49,10 +69,11 @@
 				:rules="rules"
 				class="demo-passForm"
 				:hide-required-asterisk="false"
+				label-width="100px"
 			>
 				<el-form-item
 					prop="oldPassword"
-					placeholder="请输入原密码"
+					label="原密码"
 				>
 					<el-input
 						v-model.trim="passForm.oldPassword"
@@ -61,7 +82,10 @@
 						autocomplete="off"
 					></el-input>
 				</el-form-item>
-				<el-form-item prop="newPassword">
+				<el-form-item
+					prop="newPassword"
+					label="新密码"
+				>
 					<el-input
 						v-model.trim="passForm.newPassword"
 						type="password"
@@ -69,7 +93,10 @@
 						autocomplete="off"
 					></el-input>
 				</el-form-item>
-				<el-form-item prop="checkPass">
+				<el-form-item
+					label="确认密码"
+					prop="checkPass"
+				>
 					<el-input
 						v-model.trim="passForm.checkPass"
 						type="password"
@@ -87,6 +114,61 @@
 					type="primary"
 					@click="submit('passForm')"
 				>确 定</el-button>
+			</span>
+		</el-dialog>
+		<!-- 用户信息 -->
+		<el-dialog
+			title="用户信息"
+			:visible.sync="userInfoVisible"
+			width="50%"
+		>
+			<el-row class="borderRow">
+				<el-col :span="4">
+					<div class="grid-content dialogRight">用户名:</div>
+				</el-col>
+				<el-col :span="8">
+					<div class="grid-content dialogLeft">{{userInfoData.userName}}</div>
+				</el-col>
+				<el-col :span="4">
+					<div class="grid-content dialogRight">登录账号:</div>
+				</el-col>
+				<el-col :span="8">
+					<div class="grid-content dialogLeft">{{userInfoData.userCode}}</div>
+				</el-col>
+			</el-row>
+			<el-row class="borderRow">
+				<el-col :span="4">
+					<div class="grid-content dialogRight">用户角色:</div>
+				</el-col>
+				<el-col :span="8">
+					<div class="grid-content dialogLeft">{{userInfoData.userRole}}</div>
+				</el-col>
+				<el-col :span="4">
+					<div class="grid-content dialogRight">用户状态:</div>
+				</el-col>
+				<el-col :span="8">
+					<div class="grid-content dialogLeft">{{userInfoData.status}}</div>
+				</el-col>
+			</el-row>
+			<el-row class="borderRow borderRowBottom">
+				<el-col :span="4">
+					<div class="grid-content dialogRight">更新时间:</div>
+				</el-col>
+				<el-col :span="8">
+					<div class="grid-content dialogLeft">{{userInfoData.updateTime}}</div>
+				</el-col>
+				<el-col :span="4">
+					<div class="grid-content dialogRight">创建时间:</div>
+				</el-col>
+				<el-col :span="8">
+					<div class="grid-content dialogLeft">{{userInfoData.createTime}}</div>
+				</el-col>
+			</el-row>
+			<span
+				slot="footer"
+				class="dialog-footer"
+			>
+				<el-button @click="userInfoVisible=false">关 闭</el-button>
 			</span>
 		</el-dialog>
 	</div>
@@ -115,10 +197,15 @@ export default {
 		return {
 			// showBtn: false,
 			dialogVisible: false,
+			userInfoVisible: false,
 			passForm: {
 				oldPassword: "",
 				newPassword: "",
 				checkPass: ""
+			},
+			userInfoData: {
+				userCode: "",
+				userName: ""
 			},
 			rules: {
 				oldPassword: [
@@ -180,19 +267,52 @@ export default {
 		handleClose(done) {
 			this.$refs.passForm.resetFields();
 			done();
+		},
+		handleEditPassword() {
+			this.dialogVisible = true;
+		},
+		logOutClick() {
+			this.$confirm("真的要退出吗?", "提示", {
+				confirmButtonText: "确定",
+				cancelButtonText: "取消",
+				type: "warning"
+			}).then(async () => {
+				await this.$axios.post("/userlogout");
+				localStorage.removeItem("userInfo");
+				this.$router.push("/login");
+			});
+		},
+		async handleUserInfo() {
+			const res = await this.$axios.post("/getUserInfo");
+			if (res.retCode === "000000") {
+				res.rows.status = this.$utils.sys_getStatus(
+					res.rows.status,
+					this.$PARAMS.CORE_STATUS
+				);
+				res.rows.updateTime = this.$utils.getDateStr(
+					res.rows.updateTime
+				);
+				res.rows.createTime = this.$utils.getDateStr(
+					res.rows.createTime
+				);
+				this.userInfoData = Object.assign(this.userInfoData, res.rows);
+			}
 		}
+	},
+	created() {
+		this.handleUserInfo();
 	}
 };
 </script>
 
 <style lang="scss" scoped>
-.el-dropdown-link:hover {
-	cursor: pointer;
-	color: #409eff;
-}
-.el-icon-arrow-down {
-	font-size: 12px;
-}
+// .el-dropdown-link:hover {
+// 	cursor: pointer;
+// 	color: #409eff;
+// }
+// .el-icon-arrow-down {
+// 	font-size: 12px;
+// }
 // .user-avatar-layout {
 //     margin: $margin-base;
 //     margin-bottom: 0;
@@ -221,4 +341,41 @@ export default {
 //         }
 //     }
 // }
+.header-row-conf {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: flex-end;
+	align-items: center;
+	color: #fff;
+	.header-col {
+		margin-left: $margin-base;
+		line-height: 50px;
+		&:hover {
+			cursor: pointer;
+			color: $color-primary;
+		}
+		.headerText {
+			font-size: 14px;
+			margin: 5px;
+		}
+	}
+}
+.borderRow {
+	border: 1px solid #dcdfe6;
+	border-bottom: 0;
+	line-height: 30px;
+	.dialogRight {
+		text-align: right;
+		border-right: 1px solid #dcdfe6;
+		padding-right: 5px;
+		background-color: #eee;
+	}
+	.dialogLeft {
+		text-align: left;
+		padding-left: 5px;
+	}
+	&.borderRowBottom {
+		border-bottom: 1px solid #dcdfe6;
+	}
+}
 </style>

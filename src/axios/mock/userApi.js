@@ -37,6 +37,28 @@ const resetPass = function() {
 	};
 	return data;
 };
+const userInfo = function() {
+	let data = {
+		retCode: "000000",
+		retMsg: "成功",
+		rows: {
+			createTime: 1558520267000,
+			id: "2",
+			isResetStatus: -100,
+			loginName: "admin",
+			password: "",
+			status: 100,
+			updateTime: 1566991551000,
+			userCode: "admin",
+			userEmail: "",
+			userMobile: "",
+			userName: "admin",
+			userRole: "管理员",
+			userType: 10
+		}
+	}
+	return data;
+};
 
 const getMenuList = function() {
 	let data = {
@@ -449,5 +471,6 @@ export default {
 	userLogin: () => userLoginData(),
 	userLogOut: () => userLogOut(),
 	getMenuList: () => getMenuList(),
-	resetPass: () => resetPass()
+	resetPass: () => resetPass(),
+	userInfo: () => userInfo()
 };

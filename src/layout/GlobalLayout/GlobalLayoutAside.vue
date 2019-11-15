@@ -12,6 +12,10 @@
 	>
 		<!-- 用户 -->
 		<!-- <Avatar v-if="!isCollapse"></Avatar> -->
+		<h1
+			id="projectTitle"
+			v-if="!isCollapse"
+		>{{projectTitle}}</h1>
 		<!-- 菜单 -->
 		<el-submenu
 			v-for="(item, index) in menuList"
@@ -58,7 +62,9 @@ export default {
 		}
 	},
 	data() {
-		return {};
+		return {
+			projectTitle: "飞机系统"
+		};
 	},
 	methods: {
 		handleSelect(index, indexPath) {
@@ -69,7 +75,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .global-layout-aside-layout:not(.el-menu--collapse) {
-	width: 220px;
+	min-width: 220px;
 	font-size: $font-size-primary;
 }
 </style>
@@ -78,6 +84,7 @@ export default {
 .global-layout {
 	.el-menu {
 		overflow: hidden;
+		border: 0;
 	}
 	.el-menu-item,
 	.el-submenu__title {
@@ -88,5 +95,17 @@ export default {
 		height: 40px;
 		line-height: 40px;
 	}
+	.el-menu-item.is-active {
+		color: $color-primary !important;
+	}
+}
+#projectTitle {
+	width: 100%;
+	height: 80px;
+	background-color: $color-background-title;
+	color: $color-primary;
+	line-height: 80px;
+	text-align: center;
+	font-size: $font-size-title;
 }
 </style>

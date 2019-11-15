@@ -7,6 +7,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import validator from "./common/validator";
 import utils from "./common/utils";
+import PARAMS from "./common/params";
 import "remixicon/fonts/remixicon.css";
 import "./assets/styles/index.scss";
 import sortable from "sortablejs";
@@ -22,6 +23,7 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$validator = validator; // elementUI表单要自己写验证方法，如果是共用的验证方法请写在validator.js文件中
 Vue.prototype.$utils = utils; // 一些公共方法，以供全局调用
 Vue.prototype.$sortable = sortable; // 第三方拖拽组件，体积小但是功能强大，可自行学习
+Vue.prototype.$PARAMS = PARAMS; // 静态数据
 
 new Vue({
 	router,

@@ -9,24 +9,14 @@
 				></i>
 			</div>
 			<!-- 页头右部需要加功能都加到这个div里 -->
-			<div class="header-row-conf">
-				<global-layout-aside-avatar></global-layout-aside-avatar>
-				<div
-					class="header-col header-col-text header-col-inline"
-					@click="logOutClick"
-				>
-					<i class="el-icon-switch-button">退出</i>
-				</div>
-			</div>
+			<global-layout-aside-avatar></global-layout-aside-avatar>
 		</div>
 		<el-row class="tab-bar">
 			<!-- tab栏 -->
 			<el-col
-				:xs="24"
-				:sm="24"
-				:md="20"
-				:lg="21"
-				:xl="22"
+				:xs="23"
+				:sm="23"
+				:md="23"
 			>
 				<el-tabs
 					v-model="tabIndex"
@@ -44,21 +34,21 @@
 				</el-tabs>
 			</el-col>
 			<el-col
-				:xs="24"
-				:sm="24"
-				:md="4"
-				:lg="3"
-				:xl="2"
+				:xs="1"
+				:sm="1"
+				:md="1"
 				class="header-col-text"
 			>
 				<el-dropdown
-					split-button
 					@command="handleCommand"
+					trigger="click"
 				>
-					关闭操作
+					<span class="el-dropdown-link">
+						<i class="ri-close-line"></i>
+					</span>
 					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item :command="0">关闭全部选项卡</el-dropdown-item>
-						<el-dropdown-item :command="1">关闭其他选项卡</el-dropdown-item>
+						<el-dropdown-item :command="0">关闭全部</el-dropdown-item>
+						<el-dropdown-item :command="1">关闭其他</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
 			</el-col>
@@ -121,17 +111,6 @@ export default {
 				}
 			});
 		},
-		logOutClick() {
-			this.$confirm("真的要退出吗?", "提示", {
-				confirmButtonText: "确定",
-				cancelButtonText: "取消",
-				type: "warning"
-			}).then(async () => {
-				await this.$axios.post("/userlogout");
-				localStorage.removeItem("userInfo");
-				this.$router.push("/login");
-			});
-		},
 		handleRemove(name) {
 			this.$emit("tabRemove", name);
 		},
@@ -155,27 +134,34 @@ export default {
 		display: flex;
 		flex-flow: row nowrap;
 		justify-content: space-between;
-		padding: 0;
-		margin-bottom: $margin-small;
+		padding: 0 20px;
+		background: $color-background-title;
+		line-height: 50px;
 		.menu-collapse {
 			color: $color-primary;
-			font-size: $fontSize;
+			font-size: 20px;
 			cursor: pointer;
 		}
-		.header-row-conf {
-			display: flex;
-			flex-flow: row nowrap;
-			justify-content: flex-end;
-			align-items: center;
-			.header-col {
-				margin-left: $margin-base;
-				line-height: $fontSize;
-				&:hover {
-					cursor: pointer;
-					color: $color-primary;
-				}
-			}
-		}
+	}
+	.ri-close-line {
+		font-size: 20px;
+		font-weight: 700;
+		color: #333;
+		line-height: 50px;
+		margin-right: $margin-small;
+	}
+	.header-col-text {
+		border-bottom: 1px solid #e4e7ed;
+		height: 50px;
+	}
+}
+.el-dropdown-menu.el-popper {
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	top: 100px !important;
+	.el-dropdown-menu__item {
+		min-width: 70px;
 	}
 }
 </style>

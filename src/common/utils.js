@@ -61,6 +61,42 @@ const Utils = {
 		return format.replace(/(yyyy|MM?|dd?|HH?|ss?|mm?)/g, function() {
 			return dict[arguments[0]];
 		});
+	},
+	sys_getStatus(id, json) {
+		if (id == "" || id == 0) {
+			return "-";
+		}
+		if (json != null && json.length > 0) {
+			for (let i = 0, l = json.length; i < l; i++) {
+				for (let key in json[i]) {
+					if (key == "id" && json[i][key] == id) {
+						return json[i]['text'];
+					}
+				}
+			}
+		}
+	},
+	//获取时间字符串
+	getDateStr(d_value) {
+		if (d_value == "" || d_value == null || d_value == undefined) {
+			return '';
+		}
+		let oDate = new Date(d_value),
+			oYear = oDate.getFullYear(),
+			oMonth = oDate.getMonth() + 1,
+			oDay = oDate.getDate(),
+			oHour = oDate.getHours(),
+			oMin = oDate.getMinutes(),
+			oSen = oDate.getSeconds(),
+			oTime = oYear + '-' + Utils.getzf(oMonth) + '-' + Utils.getzf(oDay) + ' ' + Utils.getzf(oHour) + ':' + Utils.getzf(oMin) + ':' + Utils.getzf(oSen); //最后拼接时间
+		return oTime;
+	},
+	// 补0
+	getzf(num){
+		if(parseInt(num) < 10){
+			num = "0" + num;
+		}
+		return num;
 	}
 };
 

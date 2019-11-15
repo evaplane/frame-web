@@ -199,8 +199,8 @@ export default {
 		}
 		.global-layout-main {
 			background: $color-background-main;
-			.el-main {
-				padding: 0;
+			&.el-main {
+				padding: 0 !important;
 			}
 		}
 	}
