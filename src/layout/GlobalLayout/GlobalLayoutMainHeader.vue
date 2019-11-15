@@ -1,71 +1,24 @@
 <template>
 	<div class="global-layout-main-header-layout">
-		<el-row
-			:gutter="10"
-			type="flex"
-			justify="space-around"
-			class="header-row"
-		>
-			<el-col
-				:xs="2"
-				:sm="2"
-				:md="2"
-				:lg="2"
-				:xl="2"
-				class="header-col"
-			>
-				<div @click="$emit('update:isCollapse', !isCollapse)">
-					<i
-						class="menu-collapse"
-						:class="[isCollapse ? 'el-icon-s-unfold':'el-icon-s-fold']"
-					></i>
-				</div>
-			</el-col>
-			<el-col
-				:xs="1"
-				:sm="1"
-				:md="12"
-				:lg="18"
-				:xl="20"
-			>
-				<!-- <el-breadcrumb
-          separator-class="el-icon-arrow-right"
-          class="header-col"
-        >
-          <el-breadcrumb-item
-            v-for="(crumb, i) in breadcrumb"
-            :key="i"
-          >{{crumb.name}}</el-breadcrumb-item>
-				</el-breadcrumb>-->
-			</el-col>
-			<el-col
-				:xs="10"
-				:sm="4"
-				:md="3"
-				:lg="2"
-				:xl="1"
-				class="header-col"
-			>
-				<div class="header-col header-col-text">
-					<global-layout-aside-avatar></global-layout-aside-avatar>
-				</div>
-			</el-col>
-			<!-- <el-col
-        :xs="24"
-        :sm="24"
-        :md="3"
-        :lg="2"
-        :xl="1"
-        class="header-col"
-			>-->
-			<div
-				class="header-col header-col-text header-col-inline"
-				@click="logOutClick"
-			>
-				<i class="el-icon-switch-button">退出</i>
+		<div class="header-row">
+			<div>
+				<i
+					@click="$emit('update:isCollapse', !isCollapse)"
+					class="menu-collapse"
+					:class="[isCollapse ? 'el-icon-s-unfold':'el-icon-s-fold']"
+				></i>
 			</div>
-			<!-- </el-col> -->
-		</el-row>
+			<!-- 页头右部需要加功能都加到这个div里 -->
+			<div class="header-row-conf">
+				<global-layout-aside-avatar></global-layout-aside-avatar>
+				<div
+					class="header-col header-col-text header-col-inline"
+					@click="logOutClick"
+				>
+					<i class="el-icon-switch-button">退出</i>
+				</div>
+			</div>
+		</div>
 		<el-row class="tab-bar">
 			<!-- tab栏 -->
 			<el-col
@@ -199,19 +152,29 @@ export default {
 		margin-right: 1px;
 	}
 	.header-row {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
 		padding: 0;
 		margin-bottom: $margin-small;
-		.header-col {
-			line-height: $fontSize;
-			&:hover {
-				cursor: pointer;
-				color: $color-primary;
-			}
-		}
 		.menu-collapse {
 			color: $color-primary;
 			font-size: $fontSize;
 			cursor: pointer;
+		}
+		.header-row-conf {
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: flex-end;
+			align-items: center;
+			.header-col {
+				margin-left: $margin-base;
+				line-height: $fontSize;
+				&:hover {
+					cursor: pointer;
+					color: $color-primary;
+				}
+			}
 		}
 	}
 }
