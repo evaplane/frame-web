@@ -75,7 +75,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .global-layout-aside-layout:not(.el-menu--collapse) {
-	min-width: 220px;
+	width: 220px;
 	font-size: $font-size-primary;
 }
 </style>

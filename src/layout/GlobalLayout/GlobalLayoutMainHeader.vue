@@ -152,7 +152,7 @@ export default {
 	}
 	.header-col-text {
 		border-bottom: 1px solid #e4e7ed;
-		height: 50px;
+		height: 41px;
 	}
 }
 .el-dropdown-menu.el-popper {
