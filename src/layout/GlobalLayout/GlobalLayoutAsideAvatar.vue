@@ -279,6 +279,7 @@ export default {
 			}).then(async () => {
 				await this.$axios.post("/userlogout");
 				localStorage.removeItem("userInfo");
+				localStorage.removeItem("tabViews");
 				this.$router.push("/login");
 			});
 		},

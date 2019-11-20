@@ -87,6 +87,9 @@ export default {
 		},
 		activeTabName(val) {
 			this.tabIndex = val;
+		},
+		editableTabs(val) {
+			localStorage.setItem("tabViews", JSON.stringify(val));
 		}
 		// tabIndex(val) {
 		// 	this.$emit("changeVal", val);

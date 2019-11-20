@@ -22,6 +22,7 @@ export default new Vuex.Store({
 			if (res.retCode === "000000") {
 				commit("setUserInfo", null);
 				localStorage.removeItem("userInfo");
+				localStorage.removeItem("tabViews");
 			}
 		}
 	},

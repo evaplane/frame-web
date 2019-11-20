@@ -73,16 +73,28 @@ export default {
 		menuList = routes;
 	},
 	created() {
-		let route = [this.$route];
-		this.editableTabs.push(this.$route);
-		if (this.$route.path !== "/" && this.$route.path !== "/homepage") {
-			route.unshift({
+		// let route = [this.$route];
+		if (
+			JSON.parse(localStorage.getItem("tabViews"))
+			&& JSON.parse(localStorage.getItem("tabViews")).length > 0
+		) {
+			this.editableTabs = JSON.parse(localStorage.getItem("tabViews"));
+		} else {
+			this.editableTabs.push({
 				path: "/homepage",
 				name: "首页"
 			});
 		}
+		// 	this.editableTabs.push(this.$route);
+		// 	if (this.$route.path !== "/" && this.$route.path !== "/homepage") {
+		// 		route.unshift({
+		// 			path: "/homepage",
+		// 			name: "首页"
+		// 		});
+		// 	}
 		this.activeTabName = this.$route.name;
-		this.editableTabs = route;
+		// 	this.editableTabs = route;
+
 		if (this.screenWidth <= 1200) {
 			this.isCollapse = true;
 		} else if (this.screenWidth > 1400) {
