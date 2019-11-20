@@ -144,6 +144,7 @@ export default {
 			color: $color-primary;
 			font-size: 20px;
 			cursor: pointer;
+			line-height: 53px;
 		}
 	}
 	.ri-close-line {
@@ -174,6 +175,9 @@ export default {
 	.el-tabs {
 		.el-tabs__nav {
 			background: #ffffff;
+		}
+		.el-tabs__header {
+			margin: 0;
 		}
 	}
 }

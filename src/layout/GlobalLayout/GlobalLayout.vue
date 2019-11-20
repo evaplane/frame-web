@@ -22,7 +22,7 @@
 						@closeTabs="closeTabs"
 					></GlobalLayoutMainHeader>
 				</el-header>
-				<el-main>
+				<el-main class="global-layout-main-inner">
 					<slot></slot>
 				</el-main>
 			</el-main>
@@ -230,6 +230,10 @@ export default {
 		.global-layout-main {
 			background: $color-background-main;
 			&.el-main {
+				padding: 0 !important;
+			}
+			.global-layout-main-inner {
+				height: calc(100% - 100px);
 				padding: 0 !important;
 			}
 		}

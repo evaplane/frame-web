@@ -32,3 +32,45 @@ body {
 		}
 	}
 }
+.main-layout {
+	padding: $padding-base;
+	margin: 10px;
+	border-radius: 5px;
+	background: #fff;
+	margin-bottom: $margin-base;
+	&:first-child {
+		padding-bottom: 0;
+	}
+}
+.pull-right {
+	float: right;
+	margin-right: $margin-small;
+	&:first-child {
+		margin-bottom: 20px;
+	}
+}
+.el-table {
+	.el-table__header {
+		.has-gutter {
+			color: $color-font-base;
+			th {
+				background-color: #f2f2f2;
+			}
+		}
+	}
+}
+
+.el-form {
+	.el-form-item {
+		margin-right: $margin-base;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+	.el-form-item__label {
+		color: $color-font-base;
+	}
+}
+.marginButton {
+	margin-bottom: $margin-small;
+}
