@@ -59,8 +59,8 @@ export default {
 			menuList: menuList,
 			editableTabs: [],
 			activeTabName: "",
-			isCollapse: false, // 侧边菜单栏开关
-			screenWidth: document.body.clientWidth
+			isCollapse: false // 侧边菜单栏开关
+			// screenWidth: document.body.clientWidth
 		};
 	},
 	beforeCreate() {
@@ -95,22 +95,22 @@ export default {
 		this.activeTabName = this.$route.name;
 		// 	this.editableTabs = route;
 
-		if (this.screenWidth <= 1200) {
-			this.isCollapse = true;
-		} else if (this.screenWidth > 1400) {
-			this.isCollapse = false;
-		}
+		// if (this.screenWidth <= 1200) {
+		// 	this.isCollapse = true;
+		// } else if (this.screenWidth > 1400) {
+		// 	this.isCollapse = false;
+		// }
 	},
 	mounted() {
-		const that = this;
-		window.onresize = function temp() {
-			that.screenWidth = document.documentElement.clientWidth;
-			if (that.screenWidth <= 1200) {
-				that.isCollapse = true;
-			} else if (that.screenWidth > 1400) {
-				that.isCollapse = false;
-			}
-		};
+		// const that = this;
+		// window.onresize = function temp() {
+		// 	that.screenWidth = document.documentElement.clientWidth;
+		// 	if (that.screenWidth <= 1200) {
+		// 		that.isCollapse = true;
+		// 	} else if (that.screenWidth > 1400) {
+		// 		that.isCollapse = false;
+		// 	}
+		// };
 	},
 	watch: {
 		$route(newRoute, oldRoute) {

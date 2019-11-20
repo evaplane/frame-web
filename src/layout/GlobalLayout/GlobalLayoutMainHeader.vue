@@ -5,19 +5,17 @@
 				<i
 					@click="$emit('update:isCollapse', !isCollapse)"
 					class="menu-collapse"
-					:class="[isCollapse ? 'el-icon-s-unfold':'el-icon-s-fold']"
+					:class="[
+						isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'
+					]"
 				></i>
 			</div>
 			<!-- 页头右部需要加功能都加到这个div里 -->
-			<global-layout-aside-avatar></global-layout-aside-avatar>
+			<GlobalLayoutHeader></GlobalLayoutHeader>
 		</div>
 		<el-row class="tab-bar">
 			<!-- tab栏 -->
-			<el-col
-				:xs="23"
-				:sm="23"
-				:md="23"
-			>
+			<el-col :xs="23" :sm="23" :md="23">
 				<el-tabs
 					v-model="tabIndex"
 					type="card"
@@ -29,26 +27,24 @@
 						:key="item.name"
 						:label="item.name"
 						:name="item.name"
-						:closable="editableTabs.length > 1 || item.name !== '首页'"
+						:closable="
+							editableTabs.length > 1 || item.name !== '首页'
+						"
 					></el-tab-pane>
 				</el-tabs>
 			</el-col>
-			<el-col
-				:xs="1"
-				:sm="1"
-				:md="1"
-				class="header-col-text"
-			>
-				<el-dropdown
-					@command="handleCommand"
-					trigger="click"
-				>
+			<el-col :xs="1" :sm="1" :md="1" class="header-col-text">
+				<el-dropdown @command="handleCommand" trigger="click">
 					<span class="el-dropdown-link">
 						<i class="ri-close-line"></i>
 					</span>
 					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item :command="0">关闭全部</el-dropdown-item>
-						<el-dropdown-item :command="1">关闭其他</el-dropdown-item>
+						<el-dropdown-item :command="0"
+							>关闭全部</el-dropdown-item
+						>
+						<el-dropdown-item :command="1"
+							>关闭其他</el-dropdown-item
+						>
 					</el-dropdown-menu>
 				</el-dropdown>
 			</el-col>
@@ -56,11 +52,11 @@
 	</div>
 </template>
 <script>
-import GlobalLayoutAsideAvatar from "@/layout/GlobalLayout/GlobalLayoutAsideAvatar";
+import GlobalLayoutHeader from "@/layout/GlobalLayout/GlobalLayoutHeader";
 let breadcrumb = [];
 export default {
 	components: {
-		GlobalLayoutAsideAvatar
+		GlobalLayoutHeader
 	},
 	props: {
 		isCollapse: {
