@@ -15,7 +15,11 @@
 		</div>
 		<el-row class="tab-bar">
 			<!-- tab栏 -->
-			<el-col :xs="23" :sm="23" :md="23">
+			<el-col
+				:xs="23"
+				:sm="23"
+				:md="23"
+			>
 				<el-tabs
 					v-model="tabIndex"
 					type="card"
@@ -33,18 +37,22 @@
 					></el-tab-pane>
 				</el-tabs>
 			</el-col>
-			<el-col :xs="1" :sm="1" :md="1" class="header-col-text">
-				<el-dropdown @command="handleCommand" trigger="click">
+			<el-col
+				:xs="1"
+				:sm="1"
+				:md="1"
+				class="header-col-text"
+			>
+				<el-dropdown
+					@command="handleCommand"
+					trigger="click"
+				>
 					<span class="el-dropdown-link">
 						<i class="ri-close-line"></i>
 					</span>
 					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item :command="0"
-							>关闭全部</el-dropdown-item
-						>
-						<el-dropdown-item :command="1"
-							>关闭其他</el-dropdown-item
-						>
+						<el-dropdown-item :command="0">关闭全部</el-dropdown-item>
+						<el-dropdown-item :command="1">关闭其他</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
 			</el-col>
@@ -85,14 +93,18 @@ export default {
 			this.tabIndex = val;
 		},
 		editableTabs(val) {
-			localStorage.setItem("tabViews", JSON.stringify(val));
+			sessionStorage.setItem("tabViews", JSON.stringify(val));
+		},
+		tabIndex(val) {
+			sessionStorage.setItem("tabIndex", JSON.stringify(val));
 		}
-		// tabIndex(val) {
-		// 	this.$emit("changeVal", val);
-		// }
 	},
 	created() {
-		this.tabIndex = this.$route.name;
+		if (JSON.parse(sessionStorage.getItem("tabIndex"))) {
+			this.tabIndex = JSON.parse(sessionStorage.getItem("tabIndex"));
+		} else {
+			this.tabIndex = this.$route.name;
+		}
 	},
 	beforeCreate() {
 		breadcrumb = this.$route.matched;

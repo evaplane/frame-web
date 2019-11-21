@@ -75,10 +75,10 @@ export default {
 	created() {
 		// let route = [this.$route];
 		if (
-			JSON.parse(localStorage.getItem("tabViews"))
-			&& JSON.parse(localStorage.getItem("tabViews")).length > 0
+			JSON.parse(sessionStorage.getItem("tabViews"))
+			&& JSON.parse(sessionStorage.getItem("tabViews")).length > 0
 		) {
-			this.editableTabs = JSON.parse(localStorage.getItem("tabViews"));
+			this.editableTabs = JSON.parse(sessionStorage.getItem("tabViews"));
 		} else {
 			this.editableTabs.push({
 				path: "/homepage",

@@ -39,15 +39,17 @@
 				border
 				row-key="id"
 				align="left"
+				style="width:100%"
 			>
 				<el-table-column
 					v-for="(item, index) in col"
 					:key="`col_${index}`"
 					:prop="dropCol[index].prop"
 					:label="item.label"
+					:width="item.width"
 				>
 					<template slot-scope="scope">
-						<el-popover
+						<!-- <el-popover
 							trigger="hover"
 							placement="top"
 							v-if="dropCol[index].prop === 'name'"
@@ -60,8 +62,8 @@
 							>
 								<el-tag size="medium">{{ scope.row.name }}</el-tag>
 							</div>
-						</el-popover>
-						<span v-else>{{scope.row[dropCol[index].prop]}}</span>
+						</el-popover>-->
+						<span>{{scope.row[dropCol[index].prop]}}</span>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -79,15 +81,33 @@
 let columnData = [
 	{
 		label: "日期",
-		prop: "date"
+		prop: "date",
+		width: "100"
 	},
 	{
 		label: "姓名",
-		prop: "name"
+		prop: "name",
+		width: "200"
 	},
 	{
 		label: "地址",
-		prop: "address"
+		prop: "address",
+		width: "300"
+	},
+	{
+		label: "日期",
+		prop: "date1",
+		width: "100"
+	},
+	{
+		label: "姓名",
+		prop: "name1",
+		width: "200"
+	},
+	{
+		label: "地址",
+		prop: "address1",
+		width: "300"
 	}
 ];
 export default {
