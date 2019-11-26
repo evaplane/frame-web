@@ -4,7 +4,8 @@ import router from "./router";
 import axios from "./axios";
 import store from "./store";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
+import "./assets/styles/element-variables.scss";
+// import "element-ui/lib/theme-chalk/index.css";
 import validator from "./common/validator";
 import utils from "./common/utils";
 import PARAMS from "./common/params";
@@ -12,6 +13,7 @@ import "remixicon/fonts/remixicon.css";
 import "./assets/styles/index.scss";
 import sortable from "sortablejs";
 import AppElePicker from "./components/AppElePicker";
+import "./common/direactives";
 
 import "./axios/mock"; // moke数据
 
