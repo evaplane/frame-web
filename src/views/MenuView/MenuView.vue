@@ -10,6 +10,16 @@
 			@tabRemove="tabRemove"
 			@closeTabs="closeTabs"
 		>
+			<template slot="header">
+				<!--支持组件-->
+				<TheNavBar></TheNavBar>
+				<!-- <div
+					class="header-logout"
+					@click="logOutClick"
+				>
+					<i class="el-icon-switch-button">退出</i>
+				</div>-->
+			</template>
 			<keep-alive>
 				<router-view v-if="$route.meta.keepAlive"></router-view>
 			</keep-alive>
@@ -25,10 +35,12 @@
  * methods: logOut,调用登出方法
  */
 import GlobalLayout from "@/layout/GlobalLayout/GlobalLayout.vue";
+import TheNavBar from "./TheNavBar";
 
 export default {
 	components: {
-		GlobalLayout
+		GlobalLayout,
+		TheNavBar
 	},
 	data() {
 		return {
@@ -76,5 +88,11 @@ export default {
 .menu-view {
 	width: 100%;
 	height: 100%;
+	.header-logout {
+		&:hover {
+			cursor: pointer;
+			color: $color-primary;
+		}
+	}
 }
 </style>

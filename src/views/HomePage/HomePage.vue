@@ -1,6 +1,7 @@
 <template>
 	<div class="home-page">
-		<div class="layout">
+		<!--吸顶元素必须在最上方，且class必须为layout/block-scroll-top-->
+		<div class="layout block-scroll-top">
 			<p>icon使用的是remixicon，如何使用?</p>
 			<i class="ri-home-line"></i>
 			<i class="ri-home-fill"></i>
@@ -12,10 +13,22 @@
 		<div class="layout">
 			<p>根据项目需求基于elementUI时间选择组件进行更改的时间组件</p>
 			<el-radio-group v-model="type">
-				<el-radio label="days">只能选择同一天</el-radio>
-				<el-radio label="weeks">选择范围不能超过7天</el-radio>
-				<el-radio label="months">选择范围不能超过一个月</el-radio>
-				<el-radio label="currentMonth">只能选择同一个月</el-radio>
+				<el-radio
+					label="days"
+					v-has="'npay:user:delete'"
+				>只能选择同一天</el-radio>
+				<el-radio
+					label="weeks"
+					v-has="'npay:user:delete'"
+				>选择范围不能超过7天</el-radio>
+				<el-radio
+					label="months"
+					v-has="'npay:user:delete'"
+				>选择范围不能超过一个月</el-radio>
+				<el-radio
+					label="currentMonth"
+					v-has="'npay:user:delete'"
+				>只能选择同一个月</el-radio>
 			</el-radio-group>
 			<br />
 			<elePicker
@@ -35,10 +48,10 @@
 			<p>支持列拖拽的表格例子，基于sortablejs（非srotable.js）和elementUI表格组件。</p>
 			<el-table
 				ref="homePageTable"
+				class="homePageTable"
 				:data="tableData"
 				border
 				row-key="id"
-				align="left"
 				style="width:100%"
 			>
 				<el-table-column
@@ -82,32 +95,19 @@ let columnData = [
 	{
 		label: "日期",
 		prop: "date",
-		width: "100"
+		width: "100",
+		align: "right"
 	},
 	{
 		label: "姓名",
 		prop: "name",
-		width: "200"
+		width: "200",
+		align: "center"
 	},
 	{
 		label: "地址",
 		prop: "address",
-		width: "300"
-	},
-	{
-		label: "日期",
-		prop: "date1",
-		width: "100"
-	},
-	{
-		label: "姓名",
-		prop: "name1",
-		width: "200"
-	},
-	{
-		label: "地址",
-		prop: "address1",
-		width: "300"
+		align: "center"
 	}
 ];
 export default {
@@ -219,7 +219,7 @@ export default {
 		//列拖拽
 		columnDrop() {
 			// 参数为表格的refs名,必须为唯一值
-			this.$utils.columnDrop(this, "homePageTable");
+			this.$utils.columnDrop(this, "homePageTable", "dropCol");
 		}
 	},
 	beforeCreate() {

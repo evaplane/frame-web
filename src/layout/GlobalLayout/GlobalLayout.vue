@@ -71,6 +71,7 @@ export default {
 	beforeCreate() {
 		let routes = this.$router.options.routes.find(item => item.path === "/")
 			.children;
+		console.log(this.$router);
 		/**
 		 * 筛选路由，使invisible为false的路由被筛掉，不渲染
 		 */

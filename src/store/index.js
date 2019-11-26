@@ -8,11 +8,17 @@ import menus from "./modules/menus";
 Vue.use(Vuex);
 // 存储业务状态
 export default new Vuex.Store({
-	state: { userInfo: null },
+	state: { userInfo: null, menuList: [], permissions: [] },
 	mutations: {
 		// 设置用户信息
 		setUserInfo(state, userInfo) {
 			state.userInfo = userInfo;
+		},
+		setMenuList(state, data) {
+			state.menuList = data;
+		},
+		setPermissons(state, data) {
+			state.permissions = data;
 		}
 	},
 	actions: {
@@ -25,6 +31,14 @@ export default new Vuex.Store({
 				sessionStorage.removeItem("tabViews");
 				sessionStorage.removeItem("tabIndex");
 			}
+		},
+		async getMenuList({ commit }) {
+			const res = await axios.get("/npay/loadAuth");
+			if (res.retCode === "000000") {
+				commit("setMenuList", res.rows.menuList);
+				commit("setPermissons", res.rows.permList);
+			}
+			return res;
 		}
 	},
 	modules: {

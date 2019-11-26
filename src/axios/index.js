@@ -17,7 +17,7 @@ Axios.interceptors.request.use(
 		if (localStorage.userInfo && requireAuth) {
 			config.headers.Authorization = JSON.parse(
 				localStorage.getItem("userInfo")
-			).loginToken;
+			).secretKey;
 		}
 		return config;
 	},

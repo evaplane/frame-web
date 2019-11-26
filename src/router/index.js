@@ -45,27 +45,32 @@ router.beforeEach(async (to, from, next) => {
 	if (whiteList.includes(to.path)) {
 		next();
 	} else {
-		let token = "";
+		let token = "",
+			path = to.path;
 		if (localStorage.getItem("userInfo")) {
-			token = JSON.parse(localStorage.getItem("userInfo")).loginToken;
+			token = JSON.parse(localStorage.getItem("userInfo")).secretKey;
 		}
 		if (!token) {
 			next("/login");
-		} else if (!store.state.menus.menuList.length) {
+		} else {
+			if (
+				!store.state.menuList.length
+				|| !store.state.permissions.length
+			) {
+				const res = await store.dispatch("getMenuList");
+				if (res.retCode !== "000000") {
+					return;
+				}
+			}
 			if (router.options.routes.length <= 2) {
-				// 2为默认路由的个数
-				let path = to.path;
-				await store.dispatch("menus/getMenuList");
-				let menuList = flattening(store.state.menus.menuList); // 后台的路由扁平化方便比对
-				// 前台设置的路由和后台设置的路由进行比对，后台存在的路由即为用户可以看见的路由，将其invisible变为true
-				filterMenu(userMenuList, menuList);
-				// store.commit("menus/setMenuList", userMenuList);
+				let menuList = flattening(store.state.menuList);
+				filterMenu(userMenuList[0].children, menuList);
 				router.addRoutes(userMenuList);
 				router.options.routes.push(...userMenuList);
 				next(path);
+			} else {
+				next(); // 世界的尽头
 			}
-		} else {
-			next();
 		}
 	}
 });

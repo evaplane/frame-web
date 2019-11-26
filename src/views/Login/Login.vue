@@ -70,7 +70,7 @@
 
 <script>
 import { getRandomCode, login } from "@/axios/api";
-import MD5 from "js-md5";
+// import MD5 from "js-md5";
 
 export default {
 	name: "login",
@@ -122,27 +122,28 @@ export default {
 				if (valid) {
 					let data = {
 						loginName: this.loginForm.loginName,
-						password: MD5(this.loginForm.password) // 其实应该用MD5加密，但是后台的接口只支持明文传输（呵呵），该项目集成了js-md5，可以直接Import使用
+						password: this.loginForm.password // 其实应该用MD5加密，但是后台的接口只支持明文传输（呵呵），该项目集成了js-md5，可以直接Import使用
+						// password: MD5(this.loginForm.password) // 其实应该用MD5加密，但是后台的接口只支持明文传输（呵呵），该项目集成了js-md5，可以直接Import使用
 						// captcha: this.loginForm.captcha
 					};
 					login(data).then(res => {
 						// mock数据，尽量模拟接口的真实出参，
 						// 此处还需要将token取出存到本地，但是后台把token放在验证码的接口中返回到前台（呵呵），切换到运营3.0的服务后应该就正常了
 						if (res.retCode === "000000") {
-							let { userName, loginToken } = res.rows;
+							let { userName, secretKey } = res.rows;
 							// localStorage只存储用户名和token，防止用户信息泄露
 							localStorage.setItem(
 								"userInfo",
 								JSON.stringify({
 									userName,
-									loginToken
+									secretKey
 								})
 							);
 							this.checked
 								&& localStorage.setItem("rememberName", userName);
 							// 用户信息存在了vuex里，但是一旦刷新就会消失。所以刷新后要拿sessionStorage里的token去后台重新请求用户信息
 							this.$store.commit("setUserInfo", res.rows);
-							this.$router.push("/");
+							this.$router.push("/homepage");
 						}
 					});
 				} else {

@@ -2,12 +2,13 @@
 	<!-- 导航菜单 -->
 	<div>
 		<el-menu
+			ref="elMenu"
 			default-active="defaultActive"
 			:collapse="isCollapse"
 			:unique-opened="true"
 			background-color="#2f4050"
 			text-color="#fff"
-			active-text-color="#ffd04b"
+			active-text-color="#3caaff"
 			class="global-layout-aside-layout"
 			@select="handleSelect"
 		>
