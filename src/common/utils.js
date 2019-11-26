@@ -8,24 +8,24 @@ const Utils = {
 			}
 		}
 	},
-	columnDrop(Vue, tableName) {
+	columnDrop(Vue, tableName, dropCol) {
 		const wrapperTr = document.querySelector(
-			".el-table__header-wrapper tr"
+			`.${tableName} .el-table__header-wrapper tr`
 		);
 		Vue.sortable = Vue.$sortable.create(wrapperTr, {
 			animation: 180,
 			delay: 0,
 			onEnd: evt => {
-				const oldItem = Vue.dropCol[evt.oldIndex];
-				Vue.dropCol.splice(evt.oldIndex, 1);
-				Vue.dropCol.splice(evt.newIndex, 0, oldItem);
+				const oldItem = Vue[dropCol][evt.oldIndex];
+				Vue[dropCol].splice(evt.oldIndex, 1);
+				Vue[dropCol].splice(evt.newIndex, 0, oldItem);
 				let individuation = localStorage.getItem("individuation");
 				if (individuation) {
 					individuation = JSON.parse(individuation);
 				} else {
 					individuation = {};
 				}
-				individuation[tableName] = Vue.dropCol;
+				individuation[tableName] = Vue[dropCol];
 				localStorage.setItem(
 					"individuation",
 					JSON.stringify(individuation)
@@ -34,8 +34,12 @@ const Utils = {
 		});
 	},
 	sys_formatDate(date, format) {
-		if (!date) {return;}
-		if (!format) {format = "yyyy-MM-dd";}
+		if (!date) {
+			return;
+		}
+		if (!format) {
+			format = "yyyy-MM-dd";
+		}
 		switch (typeof date) {
 		case "string":
 			date = new Date(date);
@@ -44,7 +48,9 @@ const Utils = {
 			date = new Date(date);
 			break;
 		}
-		if (!(date instanceof Date)) {return;}
+		if (!(date instanceof Date)) {
+			return;
+		}
 		let dict = {
 			yyyy: date.getFullYear(),
 			M: date.getMonth() + 1,
@@ -70,7 +76,7 @@ const Utils = {
 			for (let i = 0, l = json.length; i < l; i++) {
 				for (let key in json[i]) {
 					if (key == "id" && json[i][key] == id) {
-						return json[i]['text'];
+						return json[i]["text"];
 					}
 				}
 			}
@@ -79,7 +85,7 @@ const Utils = {
 	//获取时间字符串
 	getDateStr(d_value) {
 		if (d_value == "" || d_value == null || d_value == undefined) {
-			return '';
+			return "";
 		}
 		let oDate = new Date(d_value),
 			oYear = oDate.getFullYear(),
@@ -88,12 +94,23 @@ const Utils = {
 			oHour = oDate.getHours(),
 			oMin = oDate.getMinutes(),
 			oSen = oDate.getSeconds(),
-			oTime = oYear + '-' + Utils.getzf(oMonth) + '-' + Utils.getzf(oDay) + ' ' + Utils.getzf(oHour) + ':' + Utils.getzf(oMin) + ':' + Utils.getzf(oSen); //最后拼接时间
+			oTime
+				= oYear
+				+ "-"
+				+ Utils.getzf(oMonth)
+				+ "-"
+				+ Utils.getzf(oDay)
+				+ " "
+				+ Utils.getzf(oHour)
+				+ ":"
+				+ Utils.getzf(oMin)
+				+ ":"
+				+ Utils.getzf(oSen); //最后拼接时间
 		return oTime;
 	},
 	// 补0
-	getzf(num){
-		if(parseInt(num) < 10){
+	getzf(num) {
+		if (parseInt(num) < 10) {
 			num = "0" + num;
 		}
 		return num;

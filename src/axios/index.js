@@ -34,9 +34,15 @@ Axios.interceptors.response.use(
 		//对响应数据做些事
 		if (res.data && res.data.retCode && res.data.retMsg) {
 			let data = res.data;
-			if (data.retCode === "000000") {
+			let code = data.retCode;
+			switch (code) {
+			case "000000":
 				Vue.prototype.$message.success(data.retMsg);
-			} else {
+				break;
+			case "888888":
+				router.push("/login");
+				break;
+			default:
 				Vue.prototype.$message.warning(data.retMsg);
 			}
 		}
@@ -45,12 +51,17 @@ Axios.interceptors.response.use(
 	error => {
 		// 若是有基础信息的情况下,判断时间戳和当前的时间,若是当前的时间大于服务器过期的时间
 		// 乖乖的返回去登录页重新登录
-		let status = error.response.status;
-		if (status === 401) {
-			router.push("/login");
-		} else if (/^5/.test(status)) {
+		if (error.response) {
+			let status = error.response.status;
+			if (status === 401) {
+				router.push("/login");
+			} else if (/^5/.test(status)) {
+				Vue.prototype.$message.warning("网络波动，请稍后重试");
+			}
+		} else {
 			Vue.prototype.$message.warning("网络波动，请稍后重试");
 		}
+
 		// 返回 response 里的错误信息
 		let errorInfo = error.data.error
 			? error.data.error.message
