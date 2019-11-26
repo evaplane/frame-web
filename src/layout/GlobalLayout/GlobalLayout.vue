@@ -20,9 +20,14 @@
 						@tabClick="tabClick"
 						@changeVal="changeVal"
 						@closeTabs="closeTabs"
-					></GlobalLayoutMainHeader>
+					>
+						<slot name="header"></slot>
+					</GlobalLayoutMainHeader>
 				</el-header>
-				<el-main class="global-layout-main-inner">
+				<el-main
+					class="global-layout-main-inner"
+					ref="main"
+				>
 					<slot></slot>
 				</el-main>
 			</el-main>
@@ -69,48 +74,37 @@ export default {
 		/**
 		 * 筛选路由，使invisible为false的路由被筛掉，不渲染
 		 */
-		fildRoutes(routes);
-		menuList = routes;
+		menuList = fildRoutes(routes);
+		menuList.forEach((menu, id) => {
+			if (menu.meta) {
+				menu.meta._menuIndex = String(id);
+			} else {
+				menu.meta = {};
+				menu.meta._menuIndex = String(id);
+			}
+			if (menu.children.length) {
+				menu.children.forEach((child, i) => {
+					child.meta._menuIndex = `${id}-${i}`;
+				});
+			}
+		});
 	},
 	created() {
-		// let route = [this.$route];
 		if (
 			JSON.parse(sessionStorage.getItem("tabViews"))
 			&& JSON.parse(sessionStorage.getItem("tabViews")).length > 0
 		) {
 			this.editableTabs = JSON.parse(sessionStorage.getItem("tabViews"));
 		} else {
+			if (this.$route.path !== "/" && this.$route.path !== "/homepage") {
+				this.$router.replace("/");
+			}
 			this.editableTabs.push({
 				path: "/homepage",
 				name: "首页"
 			});
 		}
-		// 	this.editableTabs.push(this.$route);
-		// 	if (this.$route.path !== "/" && this.$route.path !== "/homepage") {
-		// 		route.unshift({
-		// 			path: "/homepage",
-		// 			name: "首页"
-		// 		});
-		// 	}
 		this.activeTabName = this.$route.name;
-		// 	this.editableTabs = route;
-
-		// if (this.screenWidth <= 1200) {
-		// 	this.isCollapse = true;
-		// } else if (this.screenWidth > 1400) {
-		// 	this.isCollapse = false;
-		// }
-	},
-	mounted() {
-		// const that = this;
-		// window.onresize = function temp() {
-		// 	that.screenWidth = document.documentElement.clientWidth;
-		// 	if (that.screenWidth <= 1200) {
-		// 		that.isCollapse = true;
-		// 	} else if (that.screenWidth > 1400) {
-		// 		that.isCollapse = false;
-		// 	}
-		// };
 	},
 	watch: {
 		$route(newRoute, oldRoute) {
@@ -137,11 +131,20 @@ export default {
 				};
 				filterRoutes(menuList);
 			} else {
+				// 选择上面的菜单的时候,左边的菜单被选中
 				this.activeTabName = tabName;
+				let activeMenuIndex = newRoute.meta._menuIndex;
+				this.$refs.globalLayoutAside.open(activeMenuIndex);
+				// meta里面存高度
+				setTimeout(() => {
+					let main = this.$refs.main.$el;
+					main.scrollTop = this.$route.meta.scrollTop || 0;
+				}, 20);
 			}
 		},
-		"editableTabs.length": function(val) {
-			if (!val) {
+		editableTabs: function(val) {
+			let len = val.length;
+			if (!len) {
 				this.editableTabs.push({
 					path: "/homepage",
 					name: "首页"
@@ -150,16 +153,29 @@ export default {
 					this.$router.push("/");
 				}
 			}
-			// if (!val && this.$route.path !== "/homepage") {
-			// 	this.$router.push("/");
-			// 	this.editableTabs.push({
-			// 		path: "/homepage",
-			// 		name: "首页"
-			// 	});
-			// }
+			sessionStorage.setItem("tabViews", JSON.stringify(val));
 		}
 	},
 	methods: {
+		handleScroll(e) {
+			this.$route.meta.scrollTop = e.target.scrollTop || 0;
+			let div = document.getElementsByClassName("block-scroll-top")[0];
+			if (div) {
+				let height = div.offsetHeight + 5;
+				let classList = div.classList;
+				if (e.target.scrollTop >= height) {
+					if (classList.contains("scroll-top")) {
+						return;
+					} else {
+						div.classList.add("scroll-top");
+					}
+				} else if (classList.contains("scroll-top")) {
+					div.classList.remove("scroll-top");
+				} else {
+					return;
+				}
+			}
+		},
 		tabClick(...list) {
 			this.activeTabName = list[list.length - 1];
 			this.$emit("tabClick", ...list);
@@ -211,9 +227,6 @@ export default {
 				this.editableTabs = [];
 			}
 			this.$emit("closeTabs", type, this.activeTabName);
-		},
-		logOut() {
-			this.$refs.globalLayoutMainHeader.logOutClick();
 		}
 	}
 };
@@ -230,11 +243,11 @@ export default {
 		.global-layout-main {
 			background: $color-background-main;
 			&.el-main {
-				padding: 0 !important;
+				padding: 0;
 			}
 			.global-layout-main-inner {
 				height: calc(100% - 100px);
-				padding: 0 !important;
+				padding: $padding-base;
 			}
 		}
 	}

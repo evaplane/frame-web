@@ -11,15 +11,13 @@
 				></i>
 			</div>
 			<!-- 页头右部需要加功能都加到这个div里 -->
-			<GlobalLayoutHeader></GlobalLayoutHeader>
+			<div class="header-row-conf">
+				<slot></slot>
+			</div>
 		</div>
 		<el-row class="tab-bar">
 			<!-- tab栏 -->
-			<el-col
-				:xs="23"
-				:sm="23"
-				:md="23"
-			>
+			<div class="tabs">
 				<el-tabs
 					v-model="tabIndex"
 					type="card"
@@ -36,13 +34,8 @@
 						"
 					></el-tab-pane>
 				</el-tabs>
-			</el-col>
-			<el-col
-				:xs="1"
-				:sm="1"
-				:md="1"
-				class="header-col-text"
-			>
+			</div>
+			<div class="bar">
 				<el-dropdown
 					@command="handleCommand"
 					trigger="click"
@@ -55,17 +48,13 @@
 						<el-dropdown-item :command="1">关闭其他</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-			</el-col>
+			</div>
 		</el-row>
 	</div>
 </template>
 <script>
-import GlobalLayoutHeader from "@/layout/GlobalLayout/GlobalLayoutHeader";
 let breadcrumb = [];
 export default {
-	components: {
-		GlobalLayoutHeader
-	},
 	props: {
 		isCollapse: {
 			type: Boolean,
@@ -86,25 +75,21 @@ export default {
 		};
 	},
 	watch: {
-		$route(newRoute) {
-			this.breadcrumb = newRoute.matched;
-		},
+		// $route(newRoute) {
+		// 	this.breadcrumb = newRoute.matched;
+		// },
 		activeTabName(val) {
 			this.tabIndex = val;
-		},
-		editableTabs(val) {
-			sessionStorage.setItem("tabViews", JSON.stringify(val));
-		},
-		tabIndex(val) {
-			sessionStorage.setItem("tabIndex", JSON.stringify(val));
 		}
+		// editableTabs(val) {
+		// 	sessionStorage.setItem("tabViews", JSON.stringify(val));
+		// },
+		// tabIndex(val) {
+		// 	sessionStorage.setItem("tabIndex", JSON.stringify(val));
+		// }
 	},
 	created() {
-		if (JSON.parse(sessionStorage.getItem("tabIndex"))) {
-			this.tabIndex = JSON.parse(sessionStorage.getItem("tabIndex"));
-		} else {
-			this.tabIndex = this.$route.name;
-		}
+		this.tabIndex = this.$route.name;
 	},
 	beforeCreate() {
 		breadcrumb = this.$route.matched;
@@ -133,7 +118,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .global-layout-main-header-layout {
-	$fontSize: 30px;
+	color: #fff;
+	$fontSize: 26px;
 	.header-col-text {
 		text-align: $text-align-right;
 	}
@@ -142,38 +128,53 @@ export default {
 		margin-right: 1px;
 	}
 	.header-row {
+		width: 100%;
+		background: $color-background-title;
 		display: flex;
 		flex-flow: row nowrap;
 		justify-content: space-between;
-		padding: 0 20px;
-		background: $color-background-title;
-		line-height: 50px;
-		.menu-collapse {
-			color: $color-primary;
-			font-size: 20px;
-			cursor: pointer;
-			line-height: 53px;
+		padding: 0;
+		line-height: 30px;
+		> div:not(.header-row-conf) {
+			height: 30px;
+			line-height: 30px;
+			.menu-collapse {
+				color: $color-primary;
+				font-size: $fontSize;
+				cursor: pointer;
+			}
+		}
+		.header-row-conf {
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: flex-end;
+			align-items: center;
+			> * {
+				margin-right: 10px;
+			}
 		}
 	}
-	.ri-close-line {
-		font-size: 20px;
-		font-weight: 700;
-		color: #333;
-		line-height: 50px;
-		margin-right: $margin-small;
-	}
-	.header-col-text {
-		border-bottom: 1px solid #e4e7ed;
-		height: 41px;
-	}
-}
-.el-dropdown-menu.el-popper {
-	padding: 0;
-	margin: 0;
-	position: absolute;
-	top: 100px !important;
-	.el-dropdown-menu__item {
-		min-width: 70px;
+	.tab-bar {
+		> div {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		> .tabs {
+			width: calc(100% - 40px);
+		}
+		> .bar {
+			width: 40px;
+			text-align: center;
+			.el-dropdown-link {
+				cursor: pointer;
+				font-size: 22px;
+			}
+			&:hover {
+				.el-dropdown-link {
+					color: $color-primary;
+				}
+			}
+		}
 	}
 }
 </style>
@@ -184,9 +185,17 @@ export default {
 		.el-tabs__nav {
 			background: #ffffff;
 		}
-		.el-tabs__header {
-			margin: 0;
+		.el-tabs__item {
+			height: 29px;
+			line-height: 29px;
+			padding: 0 10px;
 		}
+	}
+	.el-tabs__header {
+		margin: 0;
+	}
+	.el-tabs--card > .el-tabs__header .el-tabs__item {
+		border-bottom: 1px solid #e4e7ed;
 	}
 }
 </style>
