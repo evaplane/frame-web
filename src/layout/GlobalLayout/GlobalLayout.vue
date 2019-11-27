@@ -230,6 +230,12 @@ export default {
 			}
 			this.$emit("closeTabs", type, this.activeTabName);
 		}
+	},
+	mounted() {
+		this.$refs.main.$el.addEventListener("scroll", this.handleScroll);
+	},
+	beforeDestroy() {
+		this.$refs.main.$el.addEventListener("scroll", this.handleScroll);
 	}
 };
 </script>
