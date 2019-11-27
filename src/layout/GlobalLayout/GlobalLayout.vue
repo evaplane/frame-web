@@ -3,6 +3,7 @@
 		<el-container>
 			<!-- 左侧导航菜单 -->
 			<GlobalLayoutAside
+				ref="globalLayoutAside"
 				:isCollapse="isCollapse"
 				:menuList="menuList"
 				@menuSelect="menuSelect"
@@ -51,6 +52,7 @@ const fildRoutes = function(routeList) {
 			fildRoutes(route.children);
 		}
 	}
+	return routeList;
 };
 
 export default {
@@ -71,7 +73,6 @@ export default {
 	beforeCreate() {
 		let routes = this.$router.options.routes.find(item => item.path === "/")
 			.children;
-		console.log(this.$router);
 		/**
 		 * 筛选路由，使invisible为false的路由被筛掉，不渲染
 		 */
@@ -242,12 +243,14 @@ export default {
 			padding: 0;
 		}
 		.global-layout-main {
+			position: relative;
+			padding: 0;
 			background: $color-background-main;
-			&.el-main {
-				padding: 0;
+			.el-main {
+				padding: 0px;
 			}
 			.global-layout-main-inner {
-				height: calc(100% - 100px);
+				height: calc(100% - 70px);
 				padding: $padding-base;
 			}
 		}

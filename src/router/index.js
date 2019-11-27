@@ -18,9 +18,9 @@ const router = new Router({
 
 const flattening = function(routeList) {
 	routeList.forEach(item => {
-		if (item.list) {
-			routeList = routeList.concat(...item.list);
-			flattening(item.list);
+		if (item.nodes) {
+			routeList = routeList.concat(...item.nodes);
+			flattening(item.nodes);
 		}
 	});
 	return routeList;
@@ -29,7 +29,7 @@ const flattening = function(routeList) {
 const filterMenu = function(menus, menuList) {
 	menus.forEach(menu => {
 		menuList.forEach(list => {
-			if (menu.name === list.name) {
+			if (menu.name === list.menuName) {
 				menu.invisible = true;
 			}
 			if (menu.children) {

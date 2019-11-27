@@ -1,45 +1,46 @@
 <template>
 	<!-- 导航菜单 -->
-	<div>
-		<el-menu
-			ref="elMenu"
-			default-active="defaultActive"
-			:collapse="isCollapse"
-			:unique-opened="true"
-			background-color="#2f4050"
-			text-color="#fff"
-			active-text-color="#3caaff"
-			class="global-layout-aside-layout"
-			@select="handleSelect"
+	<el-menu
+		ref="elMenu"
+		default-active="defaultActive"
+		:collapse="isCollapse"
+		:unique-opened="true"
+		background-color="#2f4050"
+		text-color="#fff"
+		active-text-color="#3caaff"
+		class="global-layout-aside-layout"
+		@select="handleSelect"
+	>
+		<h1
+			class="projectTitle"
+			v-if="!isCollapse"
+		>{{ projectTitle }}</h1>
+		<!-- 菜单 -->
+		<el-submenu
+			v-for="(item, index) in menuList"
+			:key="index"
+			:index="item.meta._menuIndex"
 		>
-			<h1
-				id="projectTitle"
-				v-if="!isCollapse"
-			>{{ projectTitle }}</h1>
-			<!-- 菜单 -->
-			<el-submenu
-				v-for="(item, index) in menuList"
-				:key="index"
-				:index="item.meta._menuIndex"
+			<template slot="title">
+				<i
+					:class="item.icon"
+					style="margin-right:10px;"
+				></i>
+				<span>{{ item.name }}</span>
+			</template>
+			<el-menu-item
+				v-for="(tmp, subIndex) in item.children"
+				:key="subIndex"
+				:index="tmp.meta._menuIndex"
 			>
-				<template slot="title">
-					<i
-						:class="item.icon"
-						style="margin-right:10px;"
-					></i>
-					<span>{{ item.name }}</span>
-				</template>
-				<el-menu-item
-					v-for="(tmp, subIndex) in item.children"
-					:key="subIndex"
-					:index="tmp.meta._menuIndex"
-				>
-					<i :class="tmp.icon"></i>
-					<span>{{ tmp.name }}</span>
-				</el-menu-item>
-			</el-submenu>
-		</el-menu>
-	</div>
+				<i
+					:class="tmp.icon"
+					style="margin-right:10px;"
+				></i>
+				<span>{{ tmp.name }}</span>
+			</el-menu-item>
+		</el-submenu>
+	</el-menu>
 </template>
 
 <script>
@@ -89,10 +90,10 @@ export default {
 		font-size: 12px;
 		.projectTitle {
 			width: 100%;
-			height: 80px;
+			height: 70px;
 			background-color: $color-background-title;
 			color: $color-primary;
-			line-height: 80px;
+			line-height: 70px;
 			text-align: center;
 			font-size: $font-size-title;
 		}

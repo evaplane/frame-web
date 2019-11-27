@@ -350,7 +350,8 @@ export default {
 	color: #fff;
 	.header-col {
 		margin-left: $margin-base;
-		line-height: 50px;
+		line-height: 40px;
+		height: 40px;
 		&:hover {
 			cursor: pointer;
 			color: $color-primary;

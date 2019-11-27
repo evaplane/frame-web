@@ -79,7 +79,7 @@ export default {
 		}
 	},
 	created() {
-		this.loading = !this.$store.state.menus.menuList.length;
+		this.loading = !this.$store.state.menuList.length;
 	}
 };
 </script>

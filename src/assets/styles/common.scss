@@ -1,5 +1,6 @@
 html,
 body {
+	font-size: 13px;
 	height: 100%;
 	font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
 		"Microsoft YaHei", SimSun, sans-serif;
@@ -8,7 +9,8 @@ body {
 
 .layout {
 	padding: $padding-base;
-	border-radius: 5px;
+	border-radius: $border-radius;
+	border: $border-base;
 	background: #fff;
 	margin-bottom: $margin-base;
 	&:last-child {
@@ -73,4 +75,12 @@ body {
 }
 .marginButton {
 	margin-bottom: $margin-small;
+}
+
+.scroll-top {
+	position: absolute;
+	top: 60px; // 头部高度
+	left: 0;
+	right: 0;
+	z-index: 10;
 }

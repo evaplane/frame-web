@@ -140,7 +140,8 @@ export default {
 			line-height: 30px;
 			.menu-collapse {
 				color: $color-primary;
-				font-size: $fontSize;
+				font-size: 20px;
+				line-height: 40px;
 				cursor: pointer;
 			}
 		}
