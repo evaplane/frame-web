@@ -22,14 +22,12 @@
 			>
 				<!-- 按钮 -->
 				<el-button
-					size="medium"
 					class="pull-right"
 					icon="el-icon-refresh"
 					@click="refreshForm('memberAccountSearchForm')"
 				>重置</el-button>
 				<el-button
 					type="primary"
-					size="medium"
 					class="pull-right"
 					icon="el-icon-search"
 					@click="getData()"
@@ -40,7 +38,6 @@
 		<div class="content main-layout">
 			<el-button
 				type="primary"
-				size="medium"
 				class="marginButton"
 				@click="exportData"
 			>导出</el-button>

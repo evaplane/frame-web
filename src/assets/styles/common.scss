@@ -9,8 +9,7 @@ body {
 
 .layout {
 	padding: $padding-base;
-	border-radius: $border-radius;
-	border: $border-base;
+	border-radius: 5px;
 	background: #fff;
 	margin-bottom: $margin-base;
 	&:last-child {
@@ -26,20 +25,22 @@ body {
 		background-color: $color-primary;
 		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
-		padding: 15px;
+		padding: 10px;
 		.el-dialog__title,
 		.el-dialog__close {
 			font-size: $font-size-primary;
 			color: #fff;
 		}
+		.el-dialog__headerbtn {
+			top: 13px;
+		}
 	}
 }
 .main-layout {
-	padding: $padding-base;
-	margin: 10px;
+	padding: $padding-base $padding-base $padding-small;
+	margin: 5px;
 	border-radius: 5px;
 	background: #fff;
-	margin-bottom: $margin-base;
 	&:first-child {
 		padding-bottom: 0;
 	}
@@ -63,12 +64,6 @@ body {
 }
 
 .el-form {
-	.el-form-item {
-		margin-right: $margin-base;
-		&:last-child {
-			margin-right: 0;
-		}
-	}
 	.el-form-item__label {
 		color: $color-font-base;
 	}
@@ -83,4 +78,19 @@ body {
 	left: 0;
 	right: 0;
 	z-index: 10;
+}
+// .el-form-item--small.el-form-item {
+// 	margin-bottom: 10px;
+// }
+
+.el-input__inner,
+.el-form-item__label,
+.el-tabs__item {
+	font-size: $font-size-small;
+}
+
+.dialog-mini {
+	.el-dialog {
+		width: 400px;
+	}
 }

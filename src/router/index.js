@@ -64,6 +64,7 @@ router.beforeEach(async (to, from, next) => {
 			}
 			if (router.options.routes.length <= 2) {
 				let menuList = flattening(store.state.menuList);
+				console.log(menuList);
 				filterMenu(userMenuList[0].children, menuList);
 				router.addRoutes(userMenuList);
 				router.options.routes.push(...userMenuList);

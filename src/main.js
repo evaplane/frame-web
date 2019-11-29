@@ -17,7 +17,7 @@ import "./common/direactives";
 
 import "./axios/mock"; // moke数据
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, { size: "small" });
 Vue.use(AppElePicker); // 将饿了么UI时间组件独立出来，根据项目需求更改过后的时间组件
 
 Vue.config.productionTip = false;

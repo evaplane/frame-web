@@ -29,7 +29,6 @@ export default new Vuex.Store({
 				commit("setUserInfo", null);
 				localStorage.removeItem("userInfo");
 				sessionStorage.removeItem("tabViews");
-				sessionStorage.removeItem("tabIndex");
 			}
 		},
 		async getMenuList({ commit }) {

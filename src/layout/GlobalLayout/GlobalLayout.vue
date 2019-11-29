@@ -257,7 +257,6 @@ export default {
 			}
 			.global-layout-main-inner {
 				height: calc(100% - 70px);
-				padding: $padding-base;
 			}
 		}
 	}

@@ -58,9 +58,9 @@
 		<el-dialog
 			title="修改密码"
 			:visible.sync="dialogVisible"
-			width="50%"
 			:before-close="handleClose"
 			@keydown.enter.native="submit('passForm')"
+			class="dialog-mini"
 		>
 			<el-form
 				ref="passForm"
@@ -69,7 +69,7 @@
 				:rules="rules"
 				class="demo-passForm"
 				:hide-required-asterisk="false"
-				label-width="100px"
+				label-width="70px"
 			>
 				<el-form-item
 					prop="oldPassword"
