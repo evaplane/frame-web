@@ -4,6 +4,7 @@
 		v-loading="loading"
 	>
 		<global-layout
+			:projectTitle="projectTitle"
 			ref="globalLayout"
 			@tabClick="tabClick"
 			@menuSelect="menuSelect"
@@ -44,7 +45,8 @@ export default {
 	},
 	data() {
 		return {
-			loading: true
+			loading: true,
+			projectTitle: "我的系统"
 		};
 	},
 	methods: {

@@ -1,51 +1,11 @@
-<template>
-	<!-- 导航菜单 -->
-	<el-menu
-		ref="elMenu"
-		default-active="defaultActive"
-		:collapse="isCollapse"
-		:unique-opened="true"
-		background-color="#2f4050"
-		text-color="#fff"
-		active-text-color="#3caaff"
-		class="global-layout-aside-layout"
-		@select="handleSelect"
-	>
-		<h1
-			class="projectTitle"
-			v-if="!isCollapse"
-		>{{ projectTitle }}</h1>
-		<!-- 菜单 -->
-		<el-submenu
-			v-for="(item, index) in menuList"
-			:key="index"
-			:index="item.meta._menuIndex"
-		>
-			<template slot="title">
-				<i
-					:class="item.icon"
-					style="margin-right:10px;"
-				></i>
-				<span>{{ item.name }}</span>
-			</template>
-			<el-menu-item
-				v-for="(tmp, subIndex) in item.children"
-				:key="subIndex"
-				:index="tmp.meta._menuIndex"
-			>
-				<i
-					:class="tmp.icon"
-					style="margin-right:10px;"
-				></i>
-				<span>{{ tmp.name }}</span>
-			</el-menu-item>
-		</el-submenu>
-	</el-menu>
-</template>
-
+<!-- transition-group会渲染成span,transition不会渲染成元素,如果外面有根元素,就会破坏element-ui的结构,但是template必须有根元素,所以要换成render -->
 <script>
 export default {
 	props: {
+		projectTitle: {
+			type: String,
+			default: ""
+		},
 		isCollapse: {
 			type: Boolean,
 			default: false
@@ -60,7 +20,6 @@ export default {
 	},
 	data() {
 		return {
-			projectTitle: "飞机系统",
 			defaultActive: ""
 		};
 	},
@@ -70,14 +29,65 @@ export default {
 		},
 		open(activeIndex) {
 			if (activeIndex) {
-				let index = activeIndex.split("-")[0];
-				this.$refs.elMenu.open(index);
-				this.$nextTick(() => {
-					// 源码中的方法
-					this.$refs.elMenu.updateActiveIndex(activeIndex);
-				});
+				// 源码中的方法,不需要nextTick
+				this.$refs.elMenu.updateActiveIndex(activeIndex);
 			}
 		}
+	},
+	render() {
+		const { defaultActive, isCollapse, projectTitle, menuList } = this;
+		const header = !isCollapse ? (
+			<h1 class="projectTitle">{projectTitle}</h1>
+		) : (
+			""
+		);
+		const createItemFunc = function(menu, index) {
+			let menuDom = (
+				<el-submenu key={index} index={menu.meta._menuIndex}>
+					<template slot="title">
+						<i class={["submenu-icon", menu.icon]}></i>
+						<span>{menu.name}</span>
+					</template>
+					{menu.children.map(subMenu => {
+						let itemDom;
+						if (subMenu.children) {
+							itemDom = createItemFunc(subMenu);
+						} else {
+							itemDom = (
+								<el-menu-item
+									key={subMenu.meta._menuIndex}
+									index={subMenu.meta._menuIndex}
+								>
+									<i
+										class={["submenu-icon", subMenu.icon]}
+									></i>
+									<span>{subMenu.name}</span>
+								</el-menu-item>
+							);
+						}
+						return itemDom;
+					})}
+				</el-submenu>
+			);
+			return menuDom;
+		};
+		return (
+			<el-menu
+				ref="elMenu"
+				default-active={defaultActive}
+				collapse={isCollapse}
+				projectTitle={projectTitle}
+				unique-opened={true}
+				background-color="#2f4a5b"
+				text-color="#fff"
+				active-text-color="#3caaff"
+				class="global-layout-aside-layout"
+				on-select={this.handleSelect}
+			>
+				{header}
+				{menuList.map((menu, index) => createItemFunc(menu, index))}
+			</el-menu>
+		);
 	}
 };
 </script>
@@ -99,18 +109,24 @@ export default {
 		}
 	}
 }
+.submenu-icon {
+	margin-right: $margin-base;
+}
 </style>
 
 <style lang="scss">
 $submenu-height: 30px;
 .el-menu {
-	overflow: hidden;
+	.el-menu-item {
+		height: $submenu-height;
+		line-height: $submenu-height;
+	}
 	.el-submenu {
-		& > .el-submenu__title {
+		> .el-submenu__title {
 			height: $submenu-height;
 			line-height: $submenu-height;
 		}
-		& .el-menu-item {
+		.el-menu-item {
 			height: $submenu-height;
 			line-height: $submenu-height;
 		}

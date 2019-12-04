@@ -1,20 +1,10 @@
 <template>
-	<div
-		class="login-layout"
-		@keydown.enter="login"
-	>
+	<div class="login-layout" @keydown.enter="login">
 		<div class="form-layout">
 			<div>
-				<img
-					class="logo-main"
-					src="@/assets/images/now-logo.png"
-				/>
+				<img class="logo-main" src="@/assets/images/now-logo.png" />
 			</div>
-			<el-form
-				ref="loginForm"
-				:model="loginForm"
-				:rules="rules"
-			>
+			<el-form ref="loginForm" :model="loginForm" :rules="rules">
 				<el-form-item prop="loginName">
 					<el-input
 						v-model.trim="loginForm.loginName"
@@ -54,12 +44,14 @@
 						type="primary"
 						style="width: 100%;"
 						@click="login"
-					>登录</el-button>
+						>登录</el-button
+					>
 				</el-form-item>
 				<el-form-item class="login-form-item">
 					<p class="form-bottom-tips">
 						<span>
-							<i class="el-icon-star-on"></i> 推荐使用谷歌浏览器,享受更优质的体验
+							<i class="el-icon-star-on"></i>
+							推荐使用谷歌浏览器,享受更优质的体验
 						</span>
 					</p>
 				</el-form-item>
@@ -69,8 +61,8 @@
 </template>
 
 <script>
-import { getRandomCode, login } from "@/axios/api";
-// import MD5 from "js-md5";
+import { getRandomCode } from "@/axios/api";
+import MD5 from "js-md5";
 
 export default {
 	name: "login",
@@ -118,34 +110,52 @@ export default {
 		},
 		// 登录
 		login() {
-			this.$refs.loginForm.validate(valid => {
+			this.$refs.loginForm.validate(async valid => {
 				if (valid) {
 					let data = {
 						loginName: this.loginForm.loginName,
-						password: this.loginForm.password // 其实应该用MD5加密，但是后台的接口只支持明文传输（呵呵），该项目集成了js-md5，可以直接Import使用
-						// password: MD5(this.loginForm.password) // 其实应该用MD5加密，但是后台的接口只支持明文传输（呵呵），该项目集成了js-md5，可以直接Import使用
+						password: this.loginForm.password, // 其实应该用MD5加密，但是后台的接口只支持明文传输（呵呵），该项目集成了js-md5，可以直接Import使用
+						password: MD5(this.loginForm.password) // 其实应该用MD5加密，但是后台的接口只支持明文传输（呵呵），该项目集成了js-md5，可以直接Import使用
 						// captcha: this.loginForm.captcha
 					};
-					login(data).then(res => {
-						// mock数据，尽量模拟接口的真实出参，
-						// 此处还需要将token取出存到本地，但是后台把token放在验证码的接口中返回到前台（呵呵），切换到运营3.0的服务后应该就正常了
-						if (res.retCode === "000000") {
-							let { userName, secretKey } = res.rows;
-							// localStorage只存储用户名和token，防止用户信息泄露
-							localStorage.setItem(
-								"userInfo",
-								JSON.stringify({
-									userName,
-									secretKey
-								})
-							);
-							this.checked
-								&& localStorage.setItem("rememberName", userName);
-							// 用户信息存在了vuex里，但是一旦刷新就会消失。所以刷新后要拿sessionStorage里的token去后台重新请求用户信息
-							this.$store.commit("setUserInfo", res.rows);
-							this.$router.push("/homepage");
-						}
-					});
+					const res = await this.$axios.post("/userlogin", data);
+					console.log(res);
+					if (res.retCode === "000000") {
+						let { userName, secretKey } = res.rows;
+						// localStorage只存储用户名和token，防止用户信息泄露
+						localStorage.setItem(
+							"userInfo",
+							JSON.stringify({
+								userName,
+								secretKey
+							})
+						);
+						this.checked
+							&& localStorage.setItem("rememberName", userName);
+						// 用户信息存在了vuex里，但是一旦刷新就会消失。所以刷新后要拿sessionStorage里的token去后台重新请求用户信息
+						this.$store.commit("setUserInfo", res.rows);
+						this.$router.push("/homepage");
+					}
+					// login(data).then(res => {
+					// 	// mock数据，尽量模拟接口的真实出参，
+					// 	// 此处还需要将token取出存到本地，但是后台把token放在验证码的接口中返回到前台（呵呵），切换到运营3.0的服务后应该就正常了
+					// 	if (res.retCode === "000000") {
+					// 		let { userName, secretKey } = res.rows;
+					// 		// localStorage只存储用户名和token，防止用户信息泄露
+					// 		localStorage.setItem(
+					// 			"userInfo",
+					// 			JSON.stringify({
+					// 				userName,
+					// 				secretKey
+					// 			})
+					// 		);
+					// 		this.checked
+					// 			&& localStorage.setItem("rememberName", userName);
+					// 		// 用户信息存在了vuex里，但是一旦刷新就会消失。所以刷新后要拿sessionStorage里的token去后台重新请求用户信息
+					// 		this.$store.commit("setUserInfo", res.rows);
+					// 		this.$router.push("/homepage");
+					// 	}
+					// });
 				} else {
 					return false;
 				}

@@ -32,7 +32,8 @@ export default new Vuex.Store({
 			}
 		},
 		async getMenuList({ commit }) {
-			const res = await axios.get("/npay/loadAuth");
+			const res = await axios.get("/getMenuList");
+			// const res = await axios.get("/npay/loadAuth");
 			if (res.retCode === "000000") {
 				commit("setMenuList", res.rows.menuList);
 				commit("setPermissons", res.rows.permList);

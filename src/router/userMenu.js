@@ -41,7 +41,21 @@ export default [
 							requireAuth: true,
 							keepAlive: true
 						},
-						invisible: false
+						invisible: false,
+						children: [
+							{
+								path: "/system/operator/order",
+								icon: "ri-user-settings-fill",
+								name: "操作员下属管理",
+								component: () =>
+									import("@/views/MenuOne/MenuOne.vue"),
+								meta: {
+									requireAuth: true,
+									keepAlive: true
+								},
+								invisible: false
+							}
+						]
 					},
 					{
 						path: "/system/role",
@@ -95,7 +109,21 @@ export default [
 						meta: {
 							requireAuth: true,
 							keepAlive: true
-						}
+						},
+						children: [
+							{
+								path: "/content/tag/order",
+								icon: "ri-settings-6-fill",
+								name: "标签下属列表",
+								component: () =>
+									import("@/views/MenuOne/MenuOne.vue"),
+								invisible: false,
+								meta: {
+									requireAuth: true,
+									keepAlive: true
+								}
+							}
+						]
 					},
 					{
 						path: "/content/in",
@@ -106,7 +134,49 @@ export default [
 						meta: {
 							requireAuth: true,
 							keepAlive: true
-						}
+						},
+						children: [
+							{
+								path: "/content/tag/order2",
+								icon: "ri-settings-6-fill",
+								name: "视频下属列表",
+								component: () =>
+									import("@/views/MenuOne/MenuOne.vue"),
+								invisible: false,
+								meta: {
+									requireAuth: true,
+									keepAlive: true
+								}
+							},
+							{
+								path: "/content/tag/oder3",
+								icon: "ri-settings-6-fill",
+								name: "视频下属列表2",
+								component: () =>
+									import("@/views/MenuOne/MenuOne.vue"),
+								invisible: false,
+								meta: {
+									requireAuth: true,
+									keepAlive: true
+								},
+								children: [
+									{
+										path: "/content/tag/oder4",
+										icon: "ri-settings-6-fill",
+										name: "视频下属列表21",
+										component: () =>
+											import(
+												"@/views/MenuOne/MenuOne.vue"
+											),
+										invisible: false,
+										meta: {
+											requireAuth: true,
+											keepAlive: true
+										}
+									}
+								]
+							}
+						]
 					},
 					{
 						path: "/content/list",

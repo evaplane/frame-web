@@ -17,13 +17,14 @@ const router = new Router({
 });
 
 const flattening = function(routeList) {
+	let arr = [];
 	routeList.forEach(item => {
-		if (item.nodes) {
-			routeList = routeList.concat(...item.nodes);
-			flattening(item.nodes);
+		arr.push(item);
+		if (item.list && item.list.length) {
+			arr = arr.concat(flattening(item.list));
 		}
 	});
-	return routeList;
+	return arr;
 };
 
 const filterMenu = function(menus, menuList) {
@@ -64,7 +65,6 @@ router.beforeEach(async (to, from, next) => {
 			}
 			if (router.options.routes.length <= 2) {
 				let menuList = flattening(store.state.menuList);
-				console.log(menuList);
 				filterMenu(userMenuList[0].children, menuList);
 				router.addRoutes(userMenuList);
 				router.options.routes.push(...userMenuList);

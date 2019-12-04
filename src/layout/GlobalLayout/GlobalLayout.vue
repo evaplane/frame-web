@@ -5,6 +5,7 @@
 			<GlobalLayoutAside
 				ref="globalLayoutAside"
 				:isCollapse="isCollapse"
+				:projectTitle="projectTitle"
 				:menuList="menuList"
 				@menuSelect="menuSelect"
 			></GlobalLayoutAside>
@@ -25,10 +26,7 @@
 						<slot name="header"></slot>
 					</GlobalLayoutMainHeader>
 				</el-header>
-				<el-main
-					class="global-layout-main-inner"
-					ref="main"
-				>
+				<el-main class="global-layout-main-inner" ref="main">
 					<slot></slot>
 				</el-main>
 			</el-main>
@@ -54,12 +52,35 @@ const fildRoutes = function(routeList) {
 	}
 	return routeList;
 };
-
+const setMenuIndix = function(menus, pmid) {
+	menus.forEach((menu, id) => {
+		if (null == pmid || undefined == pmid) {
+			if (menu.meta) {
+				menu.meta._menuIndex = String(id);
+			} else {
+				menu.meta = {};
+				menu.meta._menuIndex = String(id);
+			}
+		} else {
+			menu.meta._menuIndex = `${pmid}-${id}`;
+		}
+		if (menu.children) {
+			setMenuIndix(menu.children, menu.meta._menuIndex);
+		}
+	});
+	return menus;
+};
 export default {
 	name: "globalLayout",
 	components: {
 		GlobalLayoutAside,
 		GlobalLayoutMainHeader
+	},
+	props: {
+		projectTitle: {
+			type: String,
+			default: ""
+		}
 	},
 	data() {
 		return {
@@ -67,7 +88,6 @@ export default {
 			editableTabs: [],
 			activeTabName: "",
 			isCollapse: false // 侧边菜单栏开关
-			// screenWidth: document.body.clientWidth
 		};
 	},
 	beforeCreate() {
@@ -76,20 +96,8 @@ export default {
 		/**
 		 * 筛选路由，使invisible为false的路由被筛掉，不渲染
 		 */
-		menuList = fildRoutes(routes);
-		menuList.forEach((menu, id) => {
-			if (menu.meta) {
-				menu.meta._menuIndex = String(id);
-			} else {
-				menu.meta = {};
-				menu.meta._menuIndex = String(id);
-			}
-			if (menu.children.length) {
-				menu.children.forEach((child, i) => {
-					child.meta._menuIndex = `${id}-${i}`;
-				});
-			}
-		});
+		let menus = fildRoutes(routes);
+		menuList = setMenuIndix(menus);
 	},
 	created() {
 		if (
