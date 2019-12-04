@@ -21,21 +21,6 @@ body {
 	}
 }
 
-// 默认图标字号
-[class^="ri-"],
-[class*=" ri-"] {
-	font-size: $font-size-primary;
-}
-
-// 表格中操作栏的图标样式
-.el-table {
-	[class^="ri-"],
-	[class*=" ri-"] {
-		font-size: $font-size-btn;
-		padding: 0;
-	}
-}
-
 // 按钮统一右侧显示
 .pull-right {
 	float: right;
@@ -47,11 +32,6 @@ body {
 	.el-button {
 		margin-bottom: $margin-small;
 	}
-}
-
-// tab栏字体大小为12px
-.el-tabs__item {
-	font-size: 12px;
 }
 
 // dialog格式
@@ -85,22 +65,11 @@ body {
 	}
 }
 
-// 信息类展示
-.infoRow {
-	border: 1px solid #dcdfe6;
-	border-bottom: 0;
-	line-height: 30px;
-	.infoRight {
-		text-align: right;
-		border-right: 1px solid #dcdfe6;
-		padding-right: 5px;
-		background-color: #eee;
-	}
-	.infoLeft {
-		text-align: left;
-		padding-left: 5px;
-	}
-	&.infoRowBottom {
-		border-bottom: 1px solid #dcdfe6;
-	}
+// 吸顶元素使用
+.scroll-top {
+	position: absolute;
+	top: 70px; // 头部高度
+	left: 0;
+	right: 0;
+	z-index: 10;
 }
