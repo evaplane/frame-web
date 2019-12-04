@@ -26,7 +26,10 @@
 						<slot name="header"></slot>
 					</GlobalLayoutMainHeader>
 				</el-header>
-				<el-main class="global-layout-main-inner" ref="main">
+				<el-main
+					class="global-layout-main-inner"
+					ref="main"
+				>
 					<slot></slot>
 				</el-main>
 			</el-main>
@@ -191,10 +194,15 @@ export default {
 			this.$emit("tabClick", ...list);
 		},
 		menuSelect(index, indexPath) {
-			let [rootIndex, subIndex] = index.split("-");
-			let menu = this.menuList[parseInt(rootIndex)].children[
-				parseInt(subIndex)
-			];
+			let indexList = index.split("-");
+			let menu;
+			indexList.forEach(temp => {
+				if (menu) {
+					menu = menu.children[parseInt(temp)];
+				} else {
+					menu = this.menuList[parseInt(temp)];
+				}
+			});
 			let path = this.$route.path;
 			if (menu.path !== path) {
 				this.$router.replace(menu.path);

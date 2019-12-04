@@ -96,6 +96,7 @@ export default {
 	},
 	methods: {
 		handleClick(tab, event) {
+			console.log(tab);
 			let tabData;
 			this.editableTabs.forEach(editableTab => {
 				if (editableTab.name === tab.name) {
