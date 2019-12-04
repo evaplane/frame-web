@@ -1,7 +1,7 @@
 <template>
 	<div class="memberAccountSearch">
 		<!-- 栅格 -->
-		<el-row class="main-layout">
+		<el-row class="layout">
 			<!-- 输入框 -->
 			<el-col :span="12">
 				<el-form
@@ -22,20 +22,18 @@
 			>
 				<!-- 按钮 -->
 				<el-button
-					class="pull-right"
-					icon="el-icon-refresh"
-					@click="refreshForm('memberAccountSearchForm')"
-				>重置</el-button>
-				<el-button
 					type="primary"
-					class="pull-right"
 					icon="el-icon-search"
 					@click="getData()"
 				>查询</el-button>
+				<el-button
+					icon="el-icon-refresh"
+					@click="refreshForm('memberAccountSearchForm')"
+				>重置</el-button>
 			</el-col>
 		</el-row>
 		<!-- 内容 -->
-		<div class="content main-layout">
+		<div class="content layout">
 			<el-button
 				type="primary"
 				class="marginButton"
