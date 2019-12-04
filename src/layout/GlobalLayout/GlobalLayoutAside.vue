@@ -72,21 +72,23 @@ export default {
 			return menuDom;
 		};
 		return (
-			<el-menu
-				ref="elMenu"
-				default-active={defaultActive}
-				collapse={isCollapse}
-				projectTitle={projectTitle}
-				unique-opened={true}
-				background-color="#2f4a5b"
-				text-color="#fff"
-				active-text-color="#3caaff"
-				class="global-layout-aside-layout"
-				on-select={this.handleSelect}
-			>
-				{header}
-				{menuList.map((menu, index) => createItemFunc(menu, index))}
-			</el-menu>
+			<div>
+				<el-menu
+					ref="elMenu"
+					default-active={defaultActive}
+					collapse={isCollapse}
+					projectTitle={projectTitle}
+					unique-opened={true}
+					background-color="#2f4a5b"
+					text-color="#fff"
+					active-text-color="#3caaff"
+					class="global-layout-aside-layout"
+					on-select={this.handleSelect}
+				>
+					{header}
+					{menuList.map((menu, index) => createItemFunc(menu, index))}
+				</el-menu>
+			</div>
 		);
 	}
 };
@@ -94,6 +96,7 @@ export default {
 <style lang="scss" scoped>
 .global-layout-aside-layout {
 	// 左侧菜单的行高
+	height: 100%;
 	border-right: 0;
 	&:not(.el-menu--collapse) {
 		width: 220px;

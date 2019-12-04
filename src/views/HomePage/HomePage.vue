@@ -13,22 +13,18 @@
 		<div class="layout">
 			<p>根据项目需求基于elementUI时间选择组件进行更改的时间组件</p>
 			<el-radio-group v-model="type">
-				<el-radio
-					label="days"
-					v-has="'npay:user:delete'"
-				>只能选择同一天</el-radio>
-				<el-radio
-					label="weeks"
-					v-has="'npay:user:delete'"
-				>选择范围不能超过7天</el-radio>
-				<el-radio
-					label="months"
-					v-has="'npay:user:delete'"
-				>选择范围不能超过一个月</el-radio>
-				<el-radio
-					label="currentMonth"
-					v-has="'npay:user:delete'"
-				>只能选择同一个月</el-radio>
+				<el-radio label="days" v-has="'npay:user:delete'"
+					>只能选择同一天</el-radio
+				>
+				<el-radio label="weeks" v-has="'npay:user:delete'"
+					>选择范围不能超过7天</el-radio
+				>
+				<el-radio label="months" v-has="'npay:user:delete'"
+					>选择范围不能超过一个月</el-radio
+				>
+				<el-radio label="currentMonth" v-has="'npay:user:delete'"
+					>只能选择同一个月</el-radio
+				>
 			</el-radio-group>
 			<br />
 			<elePicker
@@ -45,24 +41,27 @@
 			></elePicker>
 		</div>
 		<div class="layout">
-			<p>支持列拖拽的表格例子，基于sortablejs（非srotable.js）和elementUI表格组件。</p>
+			<p>
+				支持列拖拽的表格例子，基于sortablejs（非srotable.js）和elementUI表格组件。
+			</p>
 			<el-table
 				ref="homePageTable"
 				class="homePageTable"
 				:data="tableData"
 				border
 				row-key="id"
-				style="width:100%"
+				align="left"
 			>
 				<el-table-column
 					v-for="(item, index) in col"
 					:key="`col_${index}`"
 					:prop="dropCol[index].prop"
 					:label="item.label"
-					:width="item.width"
+					:align="dropCol[index].align"
+					:header-align="item.align"
 				>
 					<template slot-scope="scope">
-						<!-- <el-popover
+						<el-popover
 							trigger="hover"
 							placement="top"
 							v-if="dropCol[index].prop === 'name'"
@@ -73,20 +72,24 @@
 								slot="reference"
 								style="display: inline-block;"
 							>
-								<el-tag size="medium">{{ scope.row.name }}</el-tag>
+								<el-tag size="medium">{{
+									scope.row.name
+								}}</el-tag>
 							</div>
-						</el-popover>-->
-						<span>{{scope.row[dropCol[index].prop]}}</span>
+						</el-popover>
+						<span v-else>{{ scope.row[dropCol[index].prop] }}</span>
 					</template>
 				</el-table-column>
 			</el-table>
 			<pre style="text-align: left">
-      {{dropCol}}
-    </pre>
+      {{ dropCol }}
+    </pre
+			>
 			<hr />
 			<pre style="text-align: left">
-      {{tableData}}
-    </pre>
+      {{ tableData }}
+    </pre
+			>
 		</div>
 	</div>
 </template>
@@ -95,13 +98,11 @@ let columnData = [
 	{
 		label: "日期",
 		prop: "date",
-		width: "100",
 		align: "right"
 	},
 	{
 		label: "姓名",
 		prop: "name",
-		width: "200",
 		align: "center"
 	},
 	{
@@ -231,10 +232,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home-page {
-	// padding: 20px;
-	// background: #fff;
-	p {
-		margin-bottom: 20px;
-	}
+	line-height: 20px;
 }
 </style>
