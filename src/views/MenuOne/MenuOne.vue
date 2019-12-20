@@ -158,6 +158,84 @@
 				</si-grid>
 			</div>
 		</div>
+		<div class="layout">
+			<h1 style="lineHeight: 30px;">AppGrid组件的api</h1>
+			<el-table
+				:data="gridapi"
+				style="width: 100%"
+			>
+				<el-table-column
+					prop="api"
+					label="属性"
+					width="180"
+				></el-table-column>
+				<el-table-column
+					prop="introduce"
+					label="用法"
+					width="180"
+				></el-table-column>
+				<el-table-column
+					prop="type"
+					width="180"
+					label="参数类型"
+				></el-table-column>
+				<el-table-column
+					prop="optionnal"
+					label="用法"
+					width="180"
+				>
+					<template slot-scope="scope">
+						<span
+							style="margin-left: 10px"
+						>{{ scope.row.optionnal&& scope.row.optionnal }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					prop="default"
+					width="180"
+					label="默认值"
+				></el-table-column>
+			</el-table>
+		</div>
+		<div class="layout">
+			<h1 style="lineHeight: 30px;">subItem组件的api</h1>
+			<el-table
+				:data="subItemApi"
+				style="width: 100%"
+			>
+				<el-table-column
+					prop="api"
+					label="属性"
+					width="180"
+				></el-table-column>
+				<el-table-column
+					prop="introduce"
+					label="用法"
+					width="180"
+				></el-table-column>
+				<el-table-column
+					prop="type"
+					width="180"
+					label="参数类型"
+				></el-table-column>
+				<el-table-column
+					prop="optionnal"
+					label="用法"
+					width="180"
+				>
+					<template slot-scope="scope">
+						<span
+							style="margin-left: 10px"
+						>{{ scope.row.optionnal && scope.row.optionnal }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					prop="default"
+					width="180"
+					label="默认值"
+				></el-table-column>
+			</el-table>
+		</div>
 	</div>
 </template>
 <script>
@@ -188,7 +266,73 @@ export default {
 				old: "26",
 				phone: "111111111222",
 				email: "789546463@qq.com"
-			}
+			},
+			gridapi: [
+				{
+					api: "tempData",
+					introduce: "绑定的数据",
+					type: ["Object"],
+					default: "{}"
+				},
+				{
+					api: "labelWidth",
+					introduce: "label的宽度",
+					type: ["String"],
+					default: "auto"
+				},
+				{
+					api: "labelBackground",
+					introduce: "label的背景颜色",
+					type: ["String"],
+					default: "#eee"
+				},
+				{
+					api: "labelPosition",
+					introduce: "label文字的位置",
+					type: ["String"],
+					optionnal: ["left", "center", "right"],
+					default: "right"
+				},
+				{
+					api: "labelColor",
+					introduce: "label文字的颜色",
+					type: ["String"],
+					default: ""
+				},
+				{
+					api: "contentBackground",
+					introduce: "内容背景色",
+					type: ["String"],
+					default: "#fff"
+				},
+				{
+					api: "contentPosition",
+					introduce: "内容文字的位置",
+					type: ["String"],
+					optionnal: ["left", "center", "right"],
+					default: "left"
+				},
+				{
+					api: "contentColor",
+					introduce: "内容文字的颜色",
+					type: ["String"],
+					default: ""
+				}
+			],
+			subItemApi: [
+				{
+					api: "label",
+					introduce: "对应的字段id",
+					type: ["String"],
+					default: ""
+				},
+				{
+					api: "title",
+					introduce: "label的标题",
+					type: ["String"],
+					default: ""
+				}
+			]
 		};
 	},
 	created() {
