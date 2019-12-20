@@ -15,6 +15,10 @@ import sortable from "sortablejs";
 import AppElePicker from "./components/AppElePicker";
 import "./common/direactives";
 
+// 引入栅格布局
+import SiriusGrid from "sirius-grid";
+Vue.use(SiriusGrid);
+
 import "./axios/mock"; // moke数据
 
 Vue.use(ElementUI, { size: "small" });

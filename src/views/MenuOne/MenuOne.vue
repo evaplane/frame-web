@@ -116,6 +116,48 @@
 				></el-pagination>
 			</div>
 		</div>
+		<div class="layout">
+			<div style="width: 600px;">
+				<si-grid :tempData="tempData">
+					<si-grid-row>
+						<si-grid-col
+							prop="id"
+							label="账号"
+						></si-grid-col>
+						<si-grid-col
+							prop="name"
+							label="姓名"
+						></si-grid-col>
+					</si-grid-row>
+					<si-grid-row>
+						<si-grid-col
+							prop="date"
+							label="生日"
+						></si-grid-col>
+						<si-grid-col
+							prop="old"
+							label="年龄"
+						></si-grid-col>
+					</si-grid-row>
+					<si-grid-row>
+						<si-grid-col
+							prop="address"
+							label="地址"
+						></si-grid-col>
+					</si-grid-row>
+					<si-grid-row>
+						<si-grid-col
+							prop="email"
+							label="邮箱"
+						></si-grid-col>
+						<si-grid-col
+							prop="id"
+							label="账号"
+						></si-grid-col>
+					</si-grid-row>
+				</si-grid>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -137,7 +179,16 @@ export default {
 			},
 			pageSizes: [],
 			showPage: true,
-			total: 0
+			total: 0,
+			tempData: {
+				id: "1",
+				date: "2016-05-02",
+				name: "王小虎1",
+				address: "上海市普陀区金沙江路 100 弄",
+				old: "26",
+				phone: "111111111222",
+				email: "789546463@qq.com"
+			}
 		};
 	},
 	created() {
