@@ -8,7 +8,12 @@ import menus from "./modules/menus";
 Vue.use(Vuex);
 // 存储业务状态
 export default new Vuex.Store({
-	state: { userInfo: null, menuList: [], permissions: [] },
+	state: {
+		userInfo: null,
+		menuList: [],
+		permissions: [],
+		removedComponents: ""
+	},
 	mutations: {
 		// 设置用户信息
 		setUserInfo(state, userInfo) {
@@ -19,6 +24,9 @@ export default new Vuex.Store({
 		},
 		setPermissons(state, data) {
 			state.permissions = data;
+		},
+		setRemovedComponents(state, data) {
+			state.removedComponents = data;
 		}
 	},
 	actions: {

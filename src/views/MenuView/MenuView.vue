@@ -10,6 +10,7 @@
 			@menuSelect="menuSelect"
 			@tabRemove="tabRemove"
 			@closeTabs="closeTabs"
+			@getRemovedComponent="getRemovedComponent"
 		>
 			<template slot="header">
 				<!--支持组件-->
@@ -78,6 +79,17 @@ export default {
 		 */
 		closeTabs(type, actvieTabName) {
 			console.log("多个tab关闭事件回调", type, actvieTabName);
+		},
+		/**
+		 * 当通过关闭按钮关闭tab时清除keep-alive缓存
+		 * name 当前通过x按钮关闭的tabName,对应组件的name
+		 */
+		getRemovedComponent(data) {
+			console.log("menuview", data);
+			this.$store.commit("setRemovedComponents", data);
+			this.$nextTick(() => {
+				// this.$store.commit("setRemovedComponents", "");
+			});
 		}
 	},
 	created() {

@@ -83,6 +83,21 @@ export default {
 		projectTitle: {
 			type: String,
 			default: ""
+		},
+		homePage: {
+			type: Object,
+			default() {
+				return {
+					path: "/",
+					redirect: "/home",
+					name: "首页",
+					meta: {
+						requireAuth: true,
+						keepAlive: true,
+						name: "homePage"
+					}
+				};
+			}
 		}
 	},
 	data() {
@@ -109,13 +124,15 @@ export default {
 		) {
 			this.editableTabs = JSON.parse(sessionStorage.getItem("tabViews"));
 		} else {
-			if (this.$route.path !== "/" && this.$route.path !== "/homepage") {
-				this.$router.replace("/");
+			if (
+				this.$route.path !== this.homePage.path
+				&& this.$route.path !== this.homePage.redirect
+			) {
+				this.$router.replace(
+					this.homePage.path || this.homePage.redirect
+				);
 			}
-			this.editableTabs.push({
-				path: "/homepage",
-				name: "首页"
-			});
+			this.editableTabs.push(this.homePage);
 		}
 		this.activeTabName = this.$route.name;
 	},
@@ -158,12 +175,14 @@ export default {
 		editableTabs: function(val) {
 			let len = val.length;
 			if (!len) {
-				this.editableTabs.push({
-					path: "/homepage",
-					name: "首页"
-				});
-				if (this.$route.path !== "/homepage") {
-					this.$router.push("/");
+				this.editableTabs.push(this.homePage);
+				if (
+					this.$route.path !== this.homePage.path
+					&& this.$route.path !== this.homePage.redirect
+				) {
+					this.$router.push(
+						this.homePage.path || this.homePage.redirect
+					);
 				}
 			}
 			sessionStorage.setItem("tabViews", JSON.stringify(val));
@@ -180,9 +199,18 @@ export default {
 					if (classList.contains("scroll-top")) {
 						return;
 					} else {
+						let fragment = document.createElement("div");
+						fragment.style.height = `${height}px`;
+						fragment.style.width = "100%";
+						fragment.setAttribute("class", "fragment-dom__temp");
+						div.parentElement.insertBefore(fragment, div);
 						div.classList.add("scroll-top");
 					}
 				} else if (classList.contains("scroll-top")) {
+					let delDom = document.getElementsByClassName(
+						"fragment-dom__temp"
+					)[0];
+					delDom && delDom.remove();
 					div.classList.remove("scroll-top");
 				} else {
 					return;
@@ -216,33 +244,49 @@ export default {
 		tabRemove(name) {
 			let tabs = this.editableTabs;
 			let activeName = this.activeTabName;
-			let path;
-			if (activeName === name) {
-				tabs.forEach((tab, index) => {
-					if (tab.name === name) {
-						let nexTab = tabs[index + 1] || tabs[index - 1];
-						if (nexTab) {
-							activeName = nexTab.name;
-							path = nexTab.path;
-						}
+			let path, curtab;
+			tabs.forEach((tab, index) => {
+				if (tab.name === name) {
+					curtab = tab;
+				}
+				if (activeName === name && tab.name === activeName) {
+					let nexTab = tabs[index + 1] || tabs[index - 1];
+					if (nexTab) {
+						activeName = nexTab.name;
+						path = nexTab.path;
 					}
-				});
-			}
+				}
+			});
+
 			this.activeTabName = activeName;
 			this.editableTabs = tabs.filter(tab => tab.name !== name);
 			if (this.editableTabs.length && path) {
 				this.$router.replace(path);
 			}
 			this.$emit("tabRemove", name);
+			this.$nextTick(() => {
+				console.log(curtab);
+				this.$emit("getRemovedComponent", curtab.meta.name);
+			});
 		},
 		closeTabs(type) {
 			let tabs = this.editableTabs;
+			let excludes;
 			if (type) {
 				this.editableTabs = tabs.filter(
 					tab => tab.name === this.activeTabName
 				);
+				excludes = tabs
+					.filter(tab => tab.name !== this.activeTabName)
+					.map(item => item.meta && item.meta.name);
 			} else if (this.editableTabs.length > 0) {
+				excludes = [...this.editableTabs].map(
+					item => item.meta && item.meta.name
+				);
 				this.editableTabs = [];
+			}
+			if (excludes && excludes.length) {
+				this.$emit("getRemovedComponent", excludes.join(","));
 			}
 			this.$emit("closeTabs", type, this.activeTabName);
 		}

@@ -13,18 +13,22 @@
 		<div class="layout">
 			<p>根据项目需求基于elementUI时间选择组件进行更改的时间组件</p>
 			<el-radio-group v-model="type">
-				<el-radio label="days" v-has="'npay:user:delete'"
-					>只能选择同一天</el-radio
-				>
-				<el-radio label="weeks" v-has="'npay:user:delete'"
-					>选择范围不能超过7天</el-radio
-				>
-				<el-radio label="months" v-has="'npay:user:delete'"
-					>选择范围不能超过一个月</el-radio
-				>
-				<el-radio label="currentMonth" v-has="'npay:user:delete'"
-					>只能选择同一个月</el-radio
-				>
+				<el-radio
+					label="days"
+					v-has="'npay:user:delete'"
+				>只能选择同一天</el-radio>
+				<el-radio
+					label="weeks"
+					v-has="'npay:user:delete'"
+				>选择范围不能超过7天</el-radio>
+				<el-radio
+					label="months"
+					v-has="'npay:user:delete'"
+				>选择范围不能超过一个月</el-radio>
+				<el-radio
+					label="currentMonth"
+					v-has="'npay:user:delete'"
+				>只能选择同一个月</el-radio>
 			</el-radio-group>
 			<br />
 			<elePicker
@@ -41,9 +45,7 @@
 			></elePicker>
 		</div>
 		<div class="layout">
-			<p>
-				支持列拖拽的表格例子，基于sortablejs（非srotable.js）和elementUI表格组件。
-			</p>
+			<p>支持列拖拽的表格例子，基于sortablejs（非srotable.js）和elementUI表格组件。</p>
 			<el-table
 				ref="homePageTable"
 				class="homePageTable"
@@ -72,9 +74,11 @@
 								slot="reference"
 								style="display: inline-block;"
 							>
-								<el-tag size="medium">{{
+								<el-tag size="medium">
+									{{
 									scope.row.name
-								}}</el-tag>
+									}}
+								</el-tag>
 							</div>
 						</el-popover>
 						<span v-else>{{ scope.row[dropCol[index].prop] }}</span>
@@ -83,13 +87,11 @@
 			</el-table>
 			<pre style="text-align: left">
       {{ dropCol }}
-    </pre
-			>
+    </pre>
 			<hr />
 			<pre style="text-align: left">
       {{ tableData }}
-    </pre
-			>
+    </pre>
 		</div>
 	</div>
 </template>
@@ -112,6 +114,7 @@ let columnData = [
 	}
 ];
 export default {
+	name: "homePage",
 	data() {
 		return {
 			type: "currentMonth",

@@ -14,15 +14,30 @@ export default [
 		},
 		children: [
 			{
-				menuId: "0",
+				menuId: 0,
 				path: "/homepage",
-				name: "首页",
+				redirect: "/home",
 				invisible: false,
-				component: () => import("@/views/HomePage/HomePage.vue"),
+				component: RouterLayout,
 				meta: {
 					requireAuth: true,
-					keepAlive: true
-				}
+					keepAlive: true,
+					name: "homePage"
+				},
+				children: [
+					{
+						path: "/home",
+						name: "首页",
+						invisible: false,
+						component: () =>
+							import("@/views/HomePage/HomePage.vue"),
+						meta: {
+							requireAuth: true,
+							keepAlive: true,
+							name: "homePage"
+						}
+					}
+				]
 			},
 			{
 				path: "/system",
@@ -39,7 +54,8 @@ export default [
 						component: () => import("@/views/MenuOne/MenuOne.vue"),
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "operator"
 						},
 						invisible: false,
 						children: [
@@ -51,7 +67,8 @@ export default [
 									import("@/views/MenuOne/MenuOne.vue"),
 								meta: {
 									requireAuth: true,
-									keepAlive: true
+									keepAlive: true,
+									name: "operatororder"
 								},
 								invisible: false
 							}
@@ -64,7 +81,8 @@ export default [
 						component: () => import("@/views/MenuOne/MenuOne.vue"),
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "operatorrole"
 						},
 						invisible: false
 					},
@@ -75,7 +93,8 @@ export default [
 						component: () => import("@/views/MenuOne/MenuOne.vue"),
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "operatormenu"
 						},
 						invisible: false
 					}
@@ -97,7 +116,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "tagclassic"
 						}
 					},
 					{
@@ -108,7 +128,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "tag"
 						},
 						children: [
 							{
@@ -120,7 +141,8 @@ export default [
 								invisible: false,
 								meta: {
 									requireAuth: true,
-									keepAlive: true
+									keepAlive: true,
+									name: "tagorder"
 								}
 							}
 						]
@@ -133,7 +155,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "contentin"
 						},
 						children: [
 							{
@@ -145,7 +168,8 @@ export default [
 								invisible: false,
 								meta: {
 									requireAuth: true,
-									keepAlive: true
+									keepAlive: true,
+									name: "contentin2"
 								}
 							},
 							{
@@ -157,7 +181,8 @@ export default [
 								invisible: false,
 								meta: {
 									requireAuth: true,
-									keepAlive: true
+									keepAlive: true,
+									name: "contentin3"
 								},
 								children: [
 									{
@@ -171,7 +196,8 @@ export default [
 										invisible: false,
 										meta: {
 											requireAuth: true,
-											keepAlive: true
+											keepAlive: true,
+											name: "contentin4"
 										}
 									}
 								]
@@ -186,7 +212,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "contentin4"
 						}
 					},
 					{
@@ -197,7 +224,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "contentcheck"
 						}
 					},
 					{
@@ -208,7 +236,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "contentcheck1"
 						}
 					},
 					{
@@ -219,7 +248,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "contentwhitelist"
 						}
 					}
 				]
@@ -240,7 +270,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "cusone"
 						}
 					},
 					{
@@ -251,7 +282,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "custwo"
 						}
 					},
 					{
@@ -262,7 +294,8 @@ export default [
 						invisible: false,
 						meta: {
 							requireAuth: true,
-							keepAlive: true
+							keepAlive: true,
+							name: "custhree"
 						}
 					}
 				]

@@ -245,10 +245,21 @@ import {
 	memberAccountSearchExportData
 } from "@/axios/api";
 export default {
-	name: "MemberAccountSearch",
+	name: "operatororder",
 	data() {
 		return {
-			tableData: [],
+			tableData: [
+				{
+					cusId: "036292369306849927671895909073",
+					cusName: "",
+					currType: "CNY",
+					useAbleBalance: "0",
+					payAbleBal: "0",
+					recOnthewayBal: "0",
+					rechargeOnthewayBal: "0",
+					frozenBal: "0"
+				}
+			],
 			// 搜索框
 			searchData: {
 				cusId: "",
